@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
-import { HelpCircle, ChevronDown, ChevronUp, MessageCircle } from 'lucide-react';
+import { ChevronDown, MessageCircle } from 'lucide-react';
 
 export const FAQSection: React.FC = () => {
-  const [openIndex, setOpenIndex] = useState<number | null>(0);
+  // Pinned index keeps track of an answer explicitly opened via click/tap
+  const [pinnedIndex, setPinnedIndex] = useState<number | null>(null);
+  // Hovered index tracks current desktop mouse hover
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  // Suppressed index prevents instant re-hover if a user clicks an open item to close it
+  const [suppressedHoverIndex, setSuppressedHoverIndex] = useState<number | null>(null);
 
   const faqs = [
     {
@@ -47,8 +52,41 @@ export const FAQSection: React.FC = () => {
     },
   ];
 
-  const toggleFaq = (idx: number) => {
-    setOpenIndex(openIndex === idx ? null : idx);
+  // Effective open item: if currently hovering an item (and not suppressed), show it;
+  // otherwise fallback to any pinned item.
+  const activeHoverIndex =
+    hoveredIndex !== null && suppressedHoverIndex !== hoveredIndex
+      ? hoveredIndex
+      : null;
+
+  const activeOpenIndex = activeHoverIndex !== null ? activeHoverIndex : pinnedIndex;
+
+  const handlePointerEnter = (e: React.PointerEvent, idx: number) => {
+    // Only trigger hover for fine pointers (mouse/pen), not touchscreens
+    if (e.pointerType === 'touch') return;
+    if (suppressedHoverIndex === idx) return;
+    setHoveredIndex(idx);
+  };
+
+  const handlePointerLeave = (e: React.PointerEvent, idx: number) => {
+    if (e.pointerType === 'touch') return;
+    setHoveredIndex((curr) => (curr === idx ? null : curr));
+    if (suppressedHoverIndex === idx) {
+      setSuppressedHoverIndex(null);
+    }
+  };
+
+  const handleClick = (idx: number) => {
+    if (pinnedIndex === idx) {
+      // User clicked the already-pinned item: close it and suppress hover until mouse leaves
+      setPinnedIndex(null);
+      setHoveredIndex(null);
+      setSuppressedHoverIndex(idx);
+    } else {
+      // User clicked to pin this item (or switch pinned target)
+      setPinnedIndex(idx);
+      setSuppressedHoverIndex(null);
+    }
   };
 
   return (
@@ -68,34 +106,69 @@ export const FAQSection: React.FC = () => {
           </p>
         </div>
 
-        {/* Compact Single-Open Accordion List */}
-        <div className="space-y-2.5 mb-8">
+        {/* Compact Accordion List with Responsive Hover & Click Reveal */}
+        <div className="space-y-2.5 mb-8" role="region" aria-label="Frequently Asked Questions list">
           {faqs.map((faq, idx) => {
-            const isOpen = openIndex === idx;
+            const isOpen = activeOpenIndex === idx;
+            const isPinned = pinnedIndex === idx;
+            const isHovered = activeHoverIndex === idx;
+
+            // Brand color treatment:
+            // - Active/Pinned: slightly stronger warm rose tint (#FAF0EB) + refined border accent
+            // - Hovered: subtle warm rose tint (#FDF6F3) + soft border accent
+            // - Default: clean white (#FFFEFD) + subtle brand border
+            let itemStyleClasses = 'bg-[#FFFEFD] border-sand/20 shadow-sm';
+            if (isPinned) {
+              itemStyleClasses = 'bg-[#FAF0EB] border-[#CA9585]/55 shadow-sm';
+            } else if (isHovered) {
+              itemStyleClasses = 'bg-[#FDF6F3] border-[#CA9585]/35 shadow-sm';
+            }
+
             return (
               <div
                 key={idx}
-                className="rounded-xl bg-white/70 border border-sand/15 overflow-hidden transition-colors"
+                onPointerEnter={(e) => handlePointerEnter(e, idx)}
+                onPointerLeave={(e) => handlePointerLeave(e, idx)}
+                className={`group rounded-xl border transition-all duration-300 ease-in-out motion-reduce:transition-none overflow-hidden ${itemStyleClasses}`}
               >
                 <button
                   type="button"
-                  onClick={() => toggleFaq(idx)}
-                  className="w-full text-left p-4 sm:p-5 flex items-center justify-between gap-4 focus:outline-none"
+                  id={`faq-question-${idx}`}
+                  onClick={() => handleClick(idx)}
+                  className="w-full text-left p-4 sm:p-5 flex items-center justify-between gap-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#CA9585] focus-visible:ring-offset-2 transition-colors duration-250 cursor-pointer"
                   aria-expanded={isOpen}
+                  aria-controls={`faq-answer-${idx}`}
                 >
-                  <span className="font-heading font-semibold text-sm sm:text-base text-charcoal leading-snug">
+                  <span className="font-heading font-semibold text-sm sm:text-base text-charcoal leading-snug pr-2">
                     {faq.q}
                   </span>
-                  <span className="p-1 rounded-full bg-sand-pale/60 text-sand-dark shrink-0">
-                    {isOpen ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
+                  <span
+                    className={`p-1.5 rounded-full transition-all duration-300 ease-in-out motion-reduce:transition-none shrink-0 ${
+                      isOpen
+                        ? 'bg-[#CA9585] text-white rotate-180'
+                        : 'bg-sand-pale/70 text-sand-dark rotate-0 group-hover:bg-[#CA9585]/15'
+                    }`}
+                    aria-hidden="true"
+                  >
+                    <ChevronDown className="w-3.5 h-3.5 transition-transform duration-300 ease-in-out motion-reduce:transition-none" />
                   </span>
                 </button>
 
-                {isOpen && (
-                  <div className="px-4 pb-4 sm:px-5 sm:pb-5 pt-0 font-body text-sm text-charcoal/80 leading-relaxed border-t border-sand/10 pt-3">
-                    {faq.a}
+                {/* Animated smooth expansion / collapse using CSS grid */}
+                <div
+                  id={`faq-answer-${idx}`}
+                  role="region"
+                  aria-labelledby={`faq-question-${idx}`}
+                  className={`grid transition-all duration-300 ease-in-out motion-reduce:transition-none ${
+                    isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
+                  }`}
+                >
+                  <div className="overflow-hidden">
+                    <div className="px-4 pb-4 sm:px-5 sm:pb-5 pt-2.5 font-body text-sm text-charcoal/80 leading-relaxed border-t border-[#CA9585]/15">
+                      {faq.a}
+                    </div>
                   </div>
-                )}
+                </div>
               </div>
             );
           })}

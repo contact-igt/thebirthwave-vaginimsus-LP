@@ -55,17 +55,7 @@ export const CareApproach: React.FC = () => {
     },
   ];
 
-  // Auto-scroll selected tab into view on mobile
-  useEffect(() => {
-    const currentTabEl = tabRefs.current[activeTab];
-    if (currentTabEl) {
-      currentTabEl.scrollIntoView({
-        behavior: 'smooth',
-        block: 'nearest',
-        inline: 'center',
-      });
-    }
-  }, [activeTab]);
+
 
   // Keyboard navigation for accessible tabs (WAI-ARIA)
   const handleKeyDown = (e: React.KeyboardEvent, index: number) => {

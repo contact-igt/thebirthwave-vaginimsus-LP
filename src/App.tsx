@@ -12,7 +12,7 @@ import { CareTeam } from './components/CareTeam';
 import { FAQSection } from './components/FAQSection';
 import { ContactSection } from './components/ContactSection';
 import { Footer } from './components/Footer';
-import { FloatingWhatsApp } from './components/FloatingWhatsApp';
+import { FloatingContactBar } from './components/FloatingContactBar';
 
 export const App: React.FC = () => {
   return (
@@ -34,7 +34,7 @@ export const App: React.FC = () => {
         <ContactSection />
       </main>
       <Footer />
-      <FloatingWhatsApp />
+      <FloatingContactBar />
     </div>
   );
 };

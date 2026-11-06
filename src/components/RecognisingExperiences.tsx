@@ -11,7 +11,7 @@ export const RecognisingExperiences: React.FC = () => {
     },
     {
       image: '/images/experiences/transparent/feeling-blocked.png',
-      alt: '3D clay illustration of pelvic-floor muscles surrounding the vaginal passage suggesting involuntary tightening',
+      alt: '3D clay illustration of gently tightened pelvic-floor muscle sling suggesting involuntary tightening',
       title: 'A Feeling of Being Blocked',
       description:
         'Penetration may feel difficult or as though something is preventing it. This can happen when the surrounding muscles tighten involuntarily.',
@@ -32,14 +32,14 @@ export const RecognisingExperiences: React.FC = () => {
     },
     {
       image: '/images/experiences/transparent/avoiding-intimacy.png',
-      alt: '3D clay illustration of two human figures with gentle personal space communicating emotional comfort and boundaries',
+      alt: '3D clay illustration of two people sitting slightly apart communicating hesitation and emotional distance',
       title: 'Avoiding Physical Intimacy',
       description:
         'You may avoid or withdraw from intimate situations because you are worried about experiencing pain or discomfort.',
     },
     {
       image: '/images/experiences/transparent/unsure-symptoms.png',
-      alt: '3D clay healthcare consultation illustration with doctor, patient, speech bubble and medical cross',
+      alt: '3D clay illustration of a thoughtful woman with a question mark communicating uncertainty and seeking understanding',
       title: 'Unsure About Your Symptoms?',
       description:
         'You do not need to know the medical term for what you are experiencing. A healthcare professional can help you discuss your concerns.',
