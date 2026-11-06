@@ -21,8 +21,8 @@ export const FloatingContactBar: React.FC = () => {
     },
     {
       id: 'phone',
-      label: 'Call +91 93630 31925',
-      href: 'tel:+919363031925',
+      label: 'Call +91 79042 51378',
+      href: 'tel:+917904251378',
       external: false,
       icon: <Phone className="w-4 h-4 sm:w-4.5 sm:h-4.5 md:w-5 md:h-5" />,
     },
