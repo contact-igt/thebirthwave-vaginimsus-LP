@@ -51,7 +51,7 @@ export const Understanding: React.FC = () => {
       id="understanding"
       className="py-12 sm:py-16 md:py-18 scroll-mt-20 md:scroll-mt-24 relative overflow-hidden"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto pl-4 pr-12 sm:pl-6 sm:pr-14 lg:px-8">
         
         {/* Main 2-Column Grid: Left (Heading + Uterus Illustration), Right (Interactive List + Reassurance) */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 xl:gap-16 items-center">

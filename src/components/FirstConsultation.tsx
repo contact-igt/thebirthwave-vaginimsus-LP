@@ -27,7 +27,7 @@ export const FirstConsultation: React.FC = () => {
 
   return (
     <section id="first-visit" className="py-12 md:py-16 scroll-mt-20 md:scroll-mt-24">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-6xl mx-auto pl-4 pr-12 sm:pl-6 sm:pr-14 lg:px-8">
         
         {/* Section Header: Centred at the top */}
         <div className="max-w-2xl mx-auto text-center space-y-2.5 mb-8 sm:mb-10">
@@ -45,24 +45,24 @@ export const FirstConsultation: React.FC = () => {
         {/* Two-Column Main Content Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 xl:gap-10 items-stretch max-w-4xl mx-auto mb-6 sm:mb-8">
           
-          {/* Left Column – Consultation Image: Cropped to focus on upper body and vertically matching the 4 steps */}
+          {/* Left Column – Consultation Image: Balanced composition showing doctor's upper body, both hands, pen and notebook */}
           <div className="lg:col-span-5 relative w-full min-h-0">
-            <div className="relative w-full aspect-[4/3] sm:aspect-[16/10] lg:aspect-auto lg:h-full lg:absolute lg:inset-0 rounded-2xl overflow-hidden shadow-xs border border-sand/20">
+            <div className="relative w-full aspect-[5/4] sm:aspect-[4/3] lg:aspect-auto lg:h-full lg:absolute lg:inset-0 rounded-2xl overflow-hidden shadow-xs border border-sand/20">
               <img
                 src="/images/clinic/first-consultation.webp"
                 alt="Clinician taking notes during a confidential vaginismus consultation"
-                className="w-full h-full object-cover object-[center_15%] select-none"
+                className="w-full h-full object-cover object-[50%_68%] select-none"
                 loading="lazy"
               />
             </div>
           </div>
 
           {/* Right Column – Four Numbered Consultation Headings */}
-          <div className="lg:col-span-7 flex flex-col justify-between pl-5 sm:pl-6 pr-1 space-y-2.5 sm:space-y-3">
+          <div className="lg:col-span-7 flex flex-col justify-between pl-5 sm:pl-6 pr-1 space-y-3 sm:space-y-3.5">
             {steps.map((st) => (
               <div
                 key={st.step}
-                className="group relative flex items-center pl-7 sm:pl-8 pr-4 sm:pr-5 py-3 sm:py-3.5 rounded-xl sm:rounded-2xl bg-white border border-sand/20 shadow-2xs hover:shadow-xs hover:border-sand/40 hover:-translate-y-0.5 transition-all duration-200 ease-out cursor-default"
+                className="group relative flex items-center pl-7 sm:pl-8 pr-4 sm:pr-5 py-3.5 sm:py-4 rounded-xl sm:rounded-2xl bg-white border border-sand/20 shadow-2xs hover:shadow-xs hover:border-sand/40 hover:-translate-y-0.5 transition-all duration-200 ease-out cursor-default"
               >
                 {/* Overlapping Numbered Circular Badge */}
                 <div

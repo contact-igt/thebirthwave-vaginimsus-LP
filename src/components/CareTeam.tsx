@@ -56,7 +56,7 @@ export const CareTeam: React.FC = () => {
       className="py-12 md:py-16 scroll-mt-20 md:scroll-mt-24"
       aria-label="Care team"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto pl-4 pr-12 sm:pl-6 sm:pr-14 lg:px-8">
         
         {/* Section Header */}
         <div className="max-w-3xl mx-auto text-center space-y-2.5 mb-12 sm:mb-14 md:mb-16">

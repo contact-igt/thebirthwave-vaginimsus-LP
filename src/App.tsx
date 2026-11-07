@@ -6,7 +6,6 @@ import { Understanding } from './components/Understanding';
 import { RecognisingExperiences } from './components/RecognisingExperiences';
 import { WhenToConsiderConversation } from './components/WhenToConsiderConversation';
 import { InteractiveAssessment } from './components/InteractiveAssessment';
-import { CareApproach } from './components/CareApproach';
 import { FirstConsultation } from './components/FirstConsultation';
 import { CareTeam } from './components/CareTeam';
 import { FAQSection } from './components/FAQSection';
@@ -27,7 +26,6 @@ export const App: React.FC = () => {
         <RecognisingExperiences />
         <WhenToConsiderConversation />
         <InteractiveAssessment />
-        <CareApproach />
         <FirstConsultation />
         <CareTeam />
         <FAQSection />

@@ -116,7 +116,7 @@ export const InteractiveAssessment: React.FC = () => {
 
   return (
     <section id="assessment" className="pt-8 pb-14 md:pt-12 md:pb-20 scroll-mt-20 md:scroll-mt-24">
-      <div className="max-w-4xl lg:max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-4xl lg:max-w-5xl mx-auto pl-4 pr-12 sm:pl-6 sm:pr-14 lg:px-8">
 
         {/* ================= STAGE 0: INTRO (Wide, Horizontal, Translucent Card) ================= */}
         {currentStep === 0 && (

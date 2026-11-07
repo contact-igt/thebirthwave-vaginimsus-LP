@@ -108,7 +108,7 @@ export const FAQSection: React.FC = () => {
 
   return (
     <section id="faqs" className="py-12 md:py-16 scroll-mt-20 md:scroll-mt-24">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-6xl mx-auto pl-4 pr-12 sm:pl-6 sm:pr-14 lg:px-8">
         
         {/* Two-Column Layout on Desktop & Tablet: Intro Left, Accordion Right */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 xl:gap-14 items-center">

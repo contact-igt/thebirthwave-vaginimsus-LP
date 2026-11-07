@@ -5,7 +5,7 @@ import { AppointmentForm } from './AppointmentForm';
 export const Hero: React.FC = () => {
   return (
     <section id="hero" className="relative pt-6 pb-12 sm:pt-8 sm:pb-16 lg:pt-7 lg:pb-14 xl:pt-8 xl:pb-16 overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto pl-4 pr-12 sm:pl-6 sm:pr-14 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-8 xl:gap-10 items-start">
 
           {/* Left Column: Service Tag, Headline, Narrative, Actions, Supporting Info */}
