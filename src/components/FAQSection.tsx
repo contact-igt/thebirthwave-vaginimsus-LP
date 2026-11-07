@@ -8,49 +8,53 @@ export const FAQSection: React.FC = () => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   // Suppressed index prevents instant re-hover if a user clicks an open item to close it
   const [suppressedHoverIndex, setSuppressedHoverIndex] = useState<number | null>(null);
+  // Toggle between showing first 4 questions or all 10 questions
+  const [showAll, setShowAll] = useState(false);
 
   const faqs = [
     {
       q: 'What is vaginismus, and how does it affect intimacy?',
-      a: 'Vaginismus involves involuntary contraction or clamping of the pelvic-floor muscles around the vaginal opening when penetration is attempted or anticipated. It can make penetrative intercourse, tampon use, or gynaecological examinations painful or impossible. It is an automatic physical reflex, not an emotional flaw or personal failure.',
+      a: 'Vaginismus is an involuntary tightening or spasm of the pelvic-floor muscles around the vaginal opening when penetration is attempted or anticipated. This automatic reflex can make intercourse, tampon use, or gynaecological examinations painful or impossible. It is a physical medical response, not an emotional flaw or personal failure.',
     },
     {
       q: 'What sensations do women commonly experience?',
-      a: 'Many describe sharp, burning, or stinging pain at the vaginal opening, or a physical feeling that penetration is hitting an immovable wall. Attempting to force penetration against this involuntary contraction causes severe discomfort and distress.',
+      a: 'Women commonly describe a sharp, burning, or stinging pain at the vaginal opening, or a feeling that penetration is blocked by an immovable wall. Attempting to force penetration against this involuntary contraction causes severe discomfort and distress.',
     },
     {
       q: 'Can vaginismus be treated effectively?',
-      a: 'Yes. With appropriate multidisciplinary care that addresses involuntary muscle overactivity, emotional comfort, and body awareness, many women experience significant improvement in comfort, relaxation, and ease of penetration.',
+      a: 'Yes. With multidisciplinary care addressing muscle tightening, emotional comfort, and body awareness, many women experience significant improvement in comfort and ease of penetration. Care is gradual and tailored to each individual’s comfort level.',
     },
     {
       q: 'How does pelvic-floor physiotherapy help with vaginismus?',
-      a: 'A specialist pelvic-floor physiotherapist helps you identify and consciously relax hypertonic (chronically tightened) pelvic muscles. Care includes breathing-muscle coordination, gentle down-training, and, when appropriate and agreed upon, graded desensitisation exercises.',
+      a: 'A pelvic-floor physiotherapist helps you identify and consciously relax hypertonic (chronically tightened) pelvic muscles. Care includes breathing coordination, gentle muscle down-training, and gradual desensitisation guided entirely by your consent.',
     },
     {
       q: 'Will I need an internal physical examination during my first appointment?',
-      a: 'Not necessarily. Your first appointment is dedicated to an unhurried conversation about your history, symptoms, and comfort boundaries. Any proposed intimate physical examination is discussed beforehand and requires your explicit informed consent. You can choose to talk only.',
+      a: 'Not necessarily. Your first appointment is dedicated to an unhurried conversation about your history, symptoms, and comfort boundaries. Any proposed examination is discussed in advance, requires your explicit informed consent, and you can choose conversation only.',
     },
     {
       q: 'Why is emotional or psychosexual support recommended?',
-      a: 'Chronic pain and intimacy difficulties naturally trigger anticipatory anxiety and stress. Psychological and psychosexual guidance helps unpack performance pressure, fear of pain, and emotional boundaries, supporting physical rehabilitation.',
+      a: 'Pain and intimacy challenges often trigger anticipatory anxiety and stress. Psychological and psychosexual guidance helps unpack performance pressure, address fear of pain, and build emotional confidence alongside physical care.',
     },
     {
       q: 'Can my husband or partner be involved in consultations?',
-      a: 'Yes, if you wish. Involving a partner in educational sessions can help remove pressure and foster mutual understanding. However, partner participation is entirely optional, and private individual sessions are always available.',
+      a: 'Yes, if you wish. Involving a partner in educational sessions can foster understanding, relieve pressure, and strengthen mutual support. Partner participation is completely optional, and private individual consultations are always available.',
     },
     {
       q: 'How many sessions are typically required?',
-      a: 'Because every woman’s body and nervous system respond at their own pace, the number of sessions varies. Your care team coordinates a realistic, individualized follow-up plan after your initial assessment. Fixed numbers or guaranteed timelines are never promised.',
+      a: 'The number of sessions varies because every body and nervous system responds at its own pace. Your care team coordinates an individualised follow-up plan based on your comfort and progress, without fixed timelines or guarantees.',
     },
     {
       q: 'Can a woman with vaginismus conceive or deliver vaginally?',
-      a: 'Yes. Penetrative intercourse is not the only route to conception, and vaginismus does not mean vaginal birth is out of the question. Discussing your symptoms during antenatal care helps our maternity team plan supportive, trauma-informed care for pregnancy and birth.',
+      a: 'Yes. Penetrative intercourse is not the only route to conception, and vaginismus does not rule out vaginal birth. Discussing your symptoms during antenatal care helps our maternity team plan supportive, trauma-informed care for pregnancy and birth.',
     },
     {
       q: 'Are consultations kept strictly private and confidential?',
-      a: 'Yes. All consultations at The Birthwave adhere to strict professional medical confidentiality and privacy standards. Your personal concerns and medical history are never shared without your permission.',
+      a: 'Yes. All consultations adhere strictly to professional medical confidentiality and privacy standards. Your personal concerns and medical history are kept completely private and are never shared without your permission.',
     },
   ];
+
+  const visibleFaqs = showAll ? faqs : faqs.slice(0, 4);
 
   // Effective open item: if currently hovering an item (and not suppressed), show it;
   // otherwise fallback to any pinned item.
@@ -89,93 +93,121 @@ export const FAQSection: React.FC = () => {
     }
   };
 
+  const handleToggleShowAll = () => {
+    if (showAll) {
+      // If closing, clear pinned or hovered selection if it was in the hidden slice
+      if (pinnedIndex !== null && pinnedIndex >= 4) {
+        setPinnedIndex(null);
+      }
+      if (hoveredIndex !== null && hoveredIndex >= 4) {
+        setHoveredIndex(null);
+      }
+    }
+    setShowAll((prev) => !prev);
+  };
+
   return (
     <section id="faqs" className="py-12 md:py-16 scroll-mt-20 md:scroll-mt-24">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Section Header */}
-        <div className="text-center space-y-2 mb-10">
-          <span className="font-heading font-semibold text-xs text-sand-dark uppercase tracking-[0.12em]">
-            Frequently Asked Questions
-          </span>
-          <h2 className="font-heading font-semibold sm:font-bold text-2xl sm:text-3xl lg:text-[36px] leading-[1.15] text-charcoal tracking-tight">
-            Clear Answers to Your Questions
-          </h2>
-          <p className="font-body text-sm sm:text-base text-charcoal/80 leading-relaxed max-w-2xl mx-auto">
-            Concise, medically verified information regarding vaginismus, our care approach, and what to expect.
-          </p>
-        </div>
+        {/* Two-Column Layout on Desktop & Tablet: Intro Left, Accordion Right */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 xl:gap-14 items-center">
+          
+          {/* Left Column – FAQ Introduction (Left-aligned & vertically centred) */}
+          <div className="lg:col-span-5 text-left space-y-3">
+            <span className="font-heading font-semibold text-xs text-sand-dark uppercase tracking-[0.12em]">
+              FREQUENTLY ASKED QUESTIONS
+            </span>
+            <h2 className="font-heading font-semibold sm:font-bold text-2xl sm:text-3xl lg:text-[36px] leading-[1.15] text-charcoal tracking-tight">
+              Clear Answers to Your Questions
+            </h2>
+            <p className="font-body text-sm sm:text-base text-charcoal/80 leading-relaxed max-w-md">
+              Common questions about vaginismus, care and consultations.
+            </p>
+          </div>
 
-        {/* Compact Accordion List with Responsive Hover & Click Reveal */}
-        <div className="space-y-2.5 mb-8" role="region" aria-label="Frequently Asked Questions list">
-          {faqs.map((faq, idx) => {
-            const isOpen = activeOpenIndex === idx;
-            const isPinned = pinnedIndex === idx;
-            const isHovered = activeHoverIndex === idx;
+          {/* Right Column – FAQ Accordion List */}
+          <div className="lg:col-span-7">
+            <div className="space-y-2.5" role="region" aria-label="Frequently Asked Questions list">
+              {visibleFaqs.map((faq, idx) => {
+                const isOpen = activeOpenIndex === idx;
+                const isPinned = pinnedIndex === idx;
+                const isHovered = activeHoverIndex === idx;
 
-            // Brand color treatment:
-            // - Active/Pinned: slightly stronger warm rose tint (#FAF0EB) + refined border accent
-            // - Hovered: subtle warm rose tint (#FDF6F3) + soft border accent
-            // - Default: clean white (#FFFEFD) + subtle brand border
-            let itemStyleClasses = 'bg-[#FFFEFD] border-sand/20 shadow-sm';
-            if (isPinned) {
-              itemStyleClasses = 'bg-[#FAF0EB] border-[#CA9585]/55 shadow-sm';
-            } else if (isHovered) {
-              itemStyleClasses = 'bg-[#FDF6F3] border-[#CA9585]/35 shadow-sm';
-            }
+                let itemStyleClasses = 'bg-[#FFFEFD] border-sand/20 shadow-xs';
+                if (isPinned) {
+                  itemStyleClasses = 'bg-[#FAF0EB] border-[#CA9585]/55 shadow-xs';
+                } else if (isHovered) {
+                  itemStyleClasses = 'bg-[#FDF6F3] border-[#CA9585]/35 shadow-xs';
+                }
 
-            return (
-              <div
-                key={idx}
-                onPointerEnter={(e) => handlePointerEnter(e, idx)}
-                onPointerLeave={(e) => handlePointerLeave(e, idx)}
-                className={`group rounded-xl border transition-all duration-300 ease-in-out motion-reduce:transition-none overflow-hidden ${itemStyleClasses}`}
-              >
-                <button
-                  type="button"
-                  id={`faq-question-${idx}`}
-                  onClick={() => handleClick(idx)}
-                  className="w-full text-left p-4 sm:p-5 flex items-center justify-between gap-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#CA9585] focus-visible:ring-offset-2 transition-colors duration-250 cursor-pointer"
-                  aria-expanded={isOpen}
-                  aria-controls={`faq-answer-${idx}`}
-                >
-                  <span className="font-heading font-semibold text-sm sm:text-base text-charcoal leading-snug pr-2">
-                    {faq.q}
-                  </span>
-                  <span
-                    className={`p-1.5 rounded-full transition-all duration-300 ease-in-out motion-reduce:transition-none shrink-0 ${
-                      isOpen
-                        ? 'bg-[#CA9585] text-white rotate-180'
-                        : 'bg-sand-pale/70 text-sand-dark rotate-0 group-hover:bg-[#CA9585]/15'
-                    }`}
-                    aria-hidden="true"
+                return (
+                  <div
+                    key={idx}
+                    onPointerEnter={(e) => handlePointerEnter(e, idx)}
+                    onPointerLeave={(e) => handlePointerLeave(e, idx)}
+                    className={`group rounded-xl border transition-all duration-200 ease-in-out motion-reduce:transition-none overflow-hidden ${itemStyleClasses}`}
                   >
-                    <ChevronDown className="w-3.5 h-3.5 transition-transform duration-300 ease-in-out motion-reduce:transition-none" />
-                  </span>
-                </button>
+                    <button
+                      type="button"
+                      id={`faq-question-${idx}`}
+                      onClick={() => handleClick(idx)}
+                      className="w-full text-left p-3.5 sm:p-4 flex items-center justify-between gap-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#CA9585] focus-visible:ring-offset-2 transition-colors duration-200 cursor-pointer"
+                      aria-expanded={isOpen}
+                      aria-controls={`faq-answer-${idx}`}
+                    >
+                      <span className="font-heading font-semibold text-sm sm:text-[15px] text-charcoal leading-snug pr-2">
+                        {faq.q}
+                      </span>
+                      <span
+                        className={`p-1.5 rounded-full transition-all duration-200 ease-in-out motion-reduce:transition-none shrink-0 ${
+                          isOpen
+                            ? 'bg-[#CA9585] text-white rotate-180'
+                            : 'bg-sand-pale/70 text-sand-dark rotate-0 group-hover:bg-[#CA9585]/15'
+                        }`}
+                        aria-hidden="true"
+                      >
+                        <ChevronDown className="w-3.5 h-3.5 transition-transform duration-200 ease-in-out motion-reduce:transition-none" />
+                      </span>
+                    </button>
 
-                {/* Animated smooth expansion / collapse using CSS grid */}
-                <div
-                  id={`faq-answer-${idx}`}
-                  role="region"
-                  aria-labelledby={`faq-question-${idx}`}
-                  className={`grid transition-all duration-300 ease-in-out motion-reduce:transition-none ${
-                    isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
-                  }`}
-                >
-                  <div className="overflow-hidden">
-                    <div className="px-4 pb-4 sm:px-5 sm:pb-5 pt-2.5 font-body text-sm text-charcoal/80 leading-relaxed border-t border-[#CA9585]/15">
-                      {faq.a}
+                    {/* Animated smooth expansion / collapse using CSS grid */}
+                    <div
+                      id={`faq-answer-${idx}`}
+                      role="region"
+                      aria-labelledby={`faq-question-${idx}`}
+                      className={`grid transition-all duration-250 ease-in-out motion-reduce:transition-none ${
+                        isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
+                      }`}
+                    >
+                      <div className="overflow-hidden">
+                        <div className="px-3.5 pb-3.5 sm:px-4 sm:pb-4 pt-2 font-body text-xs sm:text-sm text-charcoal/80 leading-relaxed border-t border-[#CA9585]/15">
+                          {faq.a}
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
-            );
-          })}
+                );
+              })}
+            </div>
+
+            {/* View All Questions / Show Less Button */}
+            <div className="mt-4 sm:mt-5 text-center sm:text-left">
+              <button
+                type="button"
+                onClick={handleToggleShowAll}
+                className="inline-flex items-center gap-1.5 px-4 py-2 sm:px-5 sm:py-2.5 rounded-full font-heading text-xs sm:text-sm font-semibold text-sand-dark border border-sand-dark/30 hover:border-sand-dark hover:bg-sand-pale/40 active:scale-98 transition-all duration-200 cursor-pointer shadow-2xs"
+                aria-expanded={showAll}
+              >
+                <span>{showAll ? 'Show Less ↑' : 'View All Questions ↓'}</span>
+              </button>
+            </div>
+          </div>
+
         </div>
 
-        {/* Discreet Inquiry Note */}
-        <div className="p-4 rounded-xl bg-sand-pale/40 border border-sand/20 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
+        {/* Discreet WhatsApp Support Inquiry Note */}
+        <div className="mt-8 md:mt-12 p-3.5 sm:p-4 rounded-xl bg-sand-pale/40 border border-sand/20 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
           <p className="font-body text-xs sm:text-sm text-charcoal/80">
             Have a question that isn't answered here? Ask our care coordinator privately.
           </p>

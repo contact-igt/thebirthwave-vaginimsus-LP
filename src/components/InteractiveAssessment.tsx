@@ -116,57 +116,45 @@ export const InteractiveAssessment: React.FC = () => {
 
   return (
     <section id="assessment" className="pt-8 pb-14 md:pt-12 md:pb-20 scroll-mt-20 md:scroll-mt-24">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-4xl lg:max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
 
-        {/* Outer Card Container */}
-        <div className="bg-white/80 backdrop-blur-xs rounded-3xl border border-sand/25 p-6 sm:p-10 shadow-soft">
+        {/* ================= STAGE 0: INTRO (Wide, Horizontal, Translucent Card) ================= */}
+        {currentStep === 0 && (
+          <div className="w-full rounded-3xl bg-[#FAF1EC]/65 backdrop-blur-xs border border-sand/25 p-7 sm:p-10 lg:p-12 shadow-soft hover:border-sand/35 transition-all duration-300">
+            <div className="max-w-2xl mx-auto text-center space-y-3 sm:space-y-3.5">
+              <span className="font-heading font-semibold text-xs text-sand-dark uppercase tracking-[0.14em] block">
+                PRIVATE SELF-REFLECTION TOOL
+              </span>
 
-          {/* ================= STAGE 0: INTRO ================= */}
-          {currentStep === 0 && (
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-8 lg:gap-10 items-center">
-              {/* Left Column: Woman's Photograph */}
-              <div className="md:col-span-5 w-full">
-                <div className="relative w-full aspect-[4/5] sm:aspect-[3/4] md:aspect-auto md:h-full md:min-h-[360px] rounded-2xl overflow-hidden shadow-2xs border border-sand/20 bg-sand-pale/30">
-                  <img
-                    src="/images/assessment/self-assessment-clinician.webp"
-                    alt="The Birthwave clinician in consultation room"
-                    className="w-full h-full object-cover object-[center_18%]"
-                    loading="lazy"
-                  />
-                </div>
-              </div>
+              <h2 className="font-heading font-semibold sm:font-bold text-2xl sm:text-3xl lg:text-[34px] xl:text-[36px] leading-[1.2] text-charcoal tracking-tight">
+                Not Sure Where to Begin?
+              </h2>
 
-              {/* Right Column: Existing Label, Heading, Description, Disclaimer & Button */}
-              <div className="md:col-span-7 space-y-4 text-left py-2 sm:py-4">
-                <span className="font-heading font-semibold text-xs text-sand-dark uppercase tracking-[0.12em] block">
-                  PRIVATE SELF-REFLECTION TOOL
-                </span>
+              <p className="font-body text-sm sm:text-base text-charcoal/80 leading-relaxed max-w-xl mx-auto">
+                Reflect on your experiences with pain or difficulty with penetration.
+              </p>
 
-                <h2 className="font-heading font-semibold sm:font-bold text-2xl sm:text-3xl lg:text-[32px] leading-[1.2] text-charcoal tracking-tight">
-                  Not Sure Where to Begin?
-                </h2>
+              <p className="font-body text-xs text-muted">
+                This assessment does not provide a medical diagnosis.
+              </p>
 
-                <p className="font-body text-sm sm:text-base text-charcoal/80 leading-relaxed">
-                  Answer a few simple questions about your experiences with pain, discomfort or difficulty with penetration. This can help you prepare for a conversation with our care team.
-                </p>
-
-                <p className="font-body text-xs text-muted">
-                  This assessment does not provide a medical diagnosis.
-                </p>
-
-                <div className="pt-2">
-                  <button
-                    type="button"
-                    onClick={() => setCurrentStep(1)}
-                    className="inline-flex items-center gap-2 px-7 py-3.5 font-heading text-sm sm:text-base font-semibold text-white bg-sand-dark hover:bg-sand-deep rounded-full transition-all shadow-soft cursor-pointer"
-                  >
-                    <span>Start Self-Assessment</span>
-                    <ArrowRight className="w-4 h-4" />
-                  </button>
-                </div>
+              <div className="pt-3 sm:pt-4">
+                <button
+                  type="button"
+                  onClick={() => setCurrentStep(1)}
+                  className="inline-flex items-center justify-center gap-2 px-7 py-3.5 font-heading text-sm sm:text-base font-semibold text-white bg-sand-dark hover:bg-sand-deep rounded-full transition-all shadow-soft hover:shadow-soft-lg cursor-pointer"
+                >
+                  <span>Start Self-Assessment</span>
+                  <ArrowRight className="w-4 h-4" />
+                </button>
               </div>
             </div>
-          )}
+          </div>
+        )}
+
+        {/* ================= STAGES 1 TO 5: QUESTIONS & RESULTS (Card Container) ================= */}
+        {currentStep > 0 && (
+          <div className="bg-white/95 backdrop-blur-xs rounded-3xl border border-sand/25 p-6 sm:p-10 shadow-soft">
 
           {/* ================= STAGES 1 TO 4: QUESTIONS ================= */}
           {currentStep >= 1 && currentStep <= 4 && (
@@ -458,7 +446,8 @@ export const InteractiveAssessment: React.FC = () => {
             </div>
           )}
 
-        </div>
+          </div>
+        )}
 
       </div>
     </section>

@@ -57,9 +57,6 @@ export const Hero: React.FC = () => {
             <div className="animate-float-card-2">
               <AppointmentForm
                 idPrefix="hero"
-                title="Book Your Consultation"
-                subtitle="Share your basic details to schedule a private, doctor-led evaluation."
-                compact={true}
                 className="shadow-soft lg:shadow-soft-lg"
               />
             </div>
