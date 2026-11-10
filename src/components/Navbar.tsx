@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Calendar, Menu, X, ClipboardCheck } from 'lucide-react';
 
-export const Navbar: React.FC = () => {
+interface NavbarProps {
+  onLogoClick?: () => void;
+}
+
+export const Navbar: React.FC<NavbarProps> = ({ onLogoClick }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -34,7 +38,17 @@ export const Navbar: React.FC = () => {
           
           {/* Left: Birthwave Logo (Noticeably larger, prominent and clearly recognizable) */}
           <div className="flex-shrink-0 flex items-center">
-            <a href="#hero" className="flex items-center -ml-1 sm:-ml-2" aria-label="The Birthwave Home">
+            <a
+              href="#hero"
+              onClick={(e) => {
+                if (onLogoClick) {
+                  e.preventDefault();
+                  onLogoClick();
+                }
+              }}
+              className="flex items-center -ml-1 sm:-ml-2 cursor-pointer"
+              aria-label="The Birthwave Home"
+            >
               <img
                 src="/brand/wordmark-mauve.png"
                 alt="The Birthwave — Natural Birth & Women's Health Clinic"
