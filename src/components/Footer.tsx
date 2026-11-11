@@ -239,14 +239,6 @@ export const Footer: React.FC = () => {
                   </a>
                 </div>
 
-                {/* Primary Clinic Line */}
-                <div className="flex items-center gap-2.5">
-                  <Phone className="w-3.5 h-3.5 text-[#CA9585] shrink-0" />
-                  <a href="tel:+919840798472" className="hover:text-white transition-colors text-[#E8D4C2]/85">
-                    +91 98407 98472
-                  </a>
-                </div>
-
                 {/* Email Address */}
                 <div className="flex items-center gap-2.5">
                   <Mail className="w-3.5 h-3.5 text-[#CA9585] shrink-0" />
