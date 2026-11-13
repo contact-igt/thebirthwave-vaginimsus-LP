@@ -60,7 +60,7 @@ export const App: React.FC = () => {
   };
 
   return (
-    <div className="relative min-h-screen flex flex-col bg-cream text-charcoal font-body antialiased selection:bg-sand/25 selection:text-sand-deep">
+    <div className="relative min-h-screen flex flex-col bg-cream text-charcoal font-body antialiased selection:bg-sand/25 selection:text-sand-deep pb-24 md:pb-0">
       {/* Continuous Fixed Line-Art Background Across Entire Page */}
       <FixedBackgroundLines />
 
