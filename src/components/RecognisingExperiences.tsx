@@ -50,7 +50,7 @@ export const RecognisingExperiences: React.FC = () => {
     <section id="symptoms" className="py-12 md:py-16 scroll-mt-20 md:scroll-mt-24">
       {/* Anchor for backwards compatibility */}
       <div id="experiences" className="sr-only scroll-mt-20 md:scroll-mt-24" />
-      <div className="max-w-7xl mx-auto pl-4 pr-12 sm:pl-6 sm:pr-14 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
         <div className="max-w-2xl mx-auto text-center space-y-2.5 mb-10 md:mb-12">

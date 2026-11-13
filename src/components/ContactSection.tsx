@@ -19,7 +19,7 @@ export const ContactSection: React.FC = () => {
       <div className="absolute inset-0 bg-gradient-to-r from-[#22140E]/88 via-[#2A1810]/80 to-[#1F120A]/75 sm:from-[#22140E]/85 sm:via-[#2A1810]/76 sm:to-[#1F120A]/70" />
 
       {/* Two-Column Content: Form on Left, Heading on Right */}
-      <div className="relative z-10 max-w-7xl mx-auto pl-4 pr-12 sm:pl-6 sm:pr-14 lg:px-8">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 xl:gap-14 items-center">
           
           {/* LEFT SIDE: Appointment Form */}
