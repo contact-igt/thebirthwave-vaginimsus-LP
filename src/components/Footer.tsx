@@ -192,6 +192,14 @@ export const Footer: React.FC = () => {
                 </li>
                 <li>
                   <a
+                    href="#testimonials"
+                    className="hover:text-white transition-colors inline-block"
+                  >
+                    Patient Stories
+                  </a>
+                </li>
+                <li>
+                  <a
                     href="https://www.thebirthwave.in/blog"
                     target="_blank"
                     rel="noopener noreferrer"
