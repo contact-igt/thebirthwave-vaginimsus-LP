@@ -8,6 +8,7 @@ import { WhenToConsiderConversation } from './components/WhenToConsiderConversat
 import { InteractiveAssessment } from './components/InteractiveAssessment';
 import { FirstConsultation } from './components/FirstConsultation';
 import { CareTeam } from './components/CareTeam';
+import { EducationalVideos } from './components/EducationalVideos';
 import { Testimonials } from './components/Testimonials';
 import { FAQSection } from './components/FAQSection';
 import { ContactSection } from './components/ContactSection';
@@ -83,6 +84,7 @@ export const App: React.FC = () => {
             <InteractiveAssessment />
             <FirstConsultation />
             <CareTeam />
+            <EducationalVideos />
             <Testimonials />
             <FAQSection />
             <ContactSection />
