@@ -9,28 +9,28 @@ interface ExplanatoryItem {
 
 export const Understanding: React.FC = () => {
   const [hoveredItem, setHoveredItem] = useState<number | null>(null);
-  const [selectedItem, setSelectedItem] = useState<number | null>(null);
+  const [selectedItem, setSelectedItem] = useState<number | null>(0);
 
   const activeItem = hoveredItem !== null ? hoveredItem : selectedItem;
 
   const items: ExplanatoryItem[] = [
     {
-      id: 'anticipates-discomfort',
-      title: 'The Body Anticipates Discomfort',
+      id: 'tighten-automatically',
+      title: 'The Body May Tighten Automatically',
       description:
-        'Past pain, examination fears or worry about penetration can trigger a protective response.',
+        'Pelvic-floor muscles may tighten in anticipation of or during attempted penetration. This response can occur even when penetration is wanted.',
     },
     {
-      id: 'muscles-tighten',
-      title: 'Muscles Tighten Automatically',
+      id: 'different-causes',
+      title: 'Pain Can Have Different Causes',
       description:
-        'The pelvic-floor muscles contract without conscious control, making penetration painful or difficult.',
+        'Dryness, infections, skin conditions and other pelvic-health concerns can also cause discomfort. Assessment helps identify what support may be appropriate.',
     },
     {
-      id: 'gentle-support',
-      title: 'Gentle Support Can Help',
+      id: 'care-begins-with-understanding',
+      title: 'Care Can Begin With Understanding',
       description:
-        'Care may include physiotherapy, breathing techniques and emotional support to improve comfort.',
+        'An initial conversation about your experiences and symptoms can help guide the next steps. An intimate examination is not automatically necessary.',
     },
   ];
 
@@ -53,22 +53,30 @@ export const Understanding: React.FC = () => {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Main 2-Column Grid: Left (Heading + Uterus Illustration), Right (Interactive List + Reassurance) */}
+        {/* Main 2-Column Grid: Left (Heading + Narrative + Uterus Illustration), Right (Accordions + Reassurance) */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 xl:gap-16 items-center">
           
           {/* LEFT COLUMN: Section Label, Heading, Description, and Uterus Illustration */}
           <div className="lg:col-span-6 space-y-6 sm:space-y-7">
             {/* Header Content */}
-            <div className="space-y-3">
+            <div className="space-y-3.5">
               <span className="font-heading text-xs font-semibold uppercase tracking-[0.14em] text-sand-dark block">
                 UNDERSTANDING VAGINISMUS
               </span>
               <h2 className="text-2xl sm:text-3xl lg:text-[34px] xl:text-[36px] font-heading font-semibold sm:font-bold text-charcoal tracking-tight leading-[1.2]">
-                Why Does the Body Tighten Automatically?
+                Why Can Penetration Feel Difficult or Painful?
               </h2>
-              <p className="text-sm sm:text-base text-charcoal/80 leading-relaxed font-normal font-body max-w-xl">
-                Vaginismus can cause pelvic-floor muscles to tighten involuntarily when penetration is expected or attempted. This is an automatic response—not your fault.
-              </p>
+              <div className="space-y-3 text-sm sm:text-base text-charcoal/80 leading-relaxed font-normal font-body max-w-xl">
+                <p>
+                  Vaginismus involves involuntary tightening of the muscles around the vaginal opening, which can make penetration difficult, uncomfortable or painful.
+                </p>
+                <p>
+                  This can happen during attempted intimacy, tampon insertion or a vaginal examination. The muscle response is not something a person necessarily controls consciously.
+                </p>
+                <p>
+                  Pain during penetration can also have other causes. A healthcare professional can help understand what may be contributing to your symptoms.
+                </p>
+              </div>
             </div>
 
             {/* Illustration Area: Uterus Symbol Centered Over Spreading-Colour Glow */}
@@ -93,7 +101,7 @@ export const Understanding: React.FC = () => {
             </div>
           </div>
 
-          {/* RIGHT COLUMN: Interactive Information List + Two Reassurance Items */}
+          {/* RIGHT COLUMN: Interactive Information List + Reassurance */}
           <div className="lg:col-span-6 lg:pl-4 xl:pl-8">
             <div
               className="divide-y divide-sand/20"
@@ -158,34 +166,13 @@ export const Understanding: React.FC = () => {
               })}
             </div>
 
-            {/* TWO REASSURANCE ITEMS: Positioned directly below the third expandable item */}
-            <div className="mt-5 pt-5 border-t border-sand/20 px-3 sm:px-4">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
-                {/* Reassurance Item 1 */}
-                <div className="flex items-start gap-2.5 sm:gap-3">
-                  <CheckCircle2 className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-sand-dark shrink-0 mt-0.5" strokeWidth={2.2} />
-                  <div className="space-y-0.5">
-                    <h4 className="font-heading font-semibold text-xs sm:text-sm text-charcoal tracking-tight">
-                      Not Your Fault
-                    </h4>
-                    <p className="font-body text-[11px] sm:text-xs text-charcoal/70 leading-relaxed font-normal">
-                      Muscle tightening is automatic, not a choice.
-                    </p>
-                  </div>
-                </div>
-
-                {/* Reassurance Item 2 */}
-                <div className="flex items-start gap-2.5 sm:gap-3">
-                  <CheckCircle2 className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-sand-dark shrink-0 mt-0.5" strokeWidth={2.2} />
-                  <div className="space-y-0.5">
-                    <h4 className="font-heading font-semibold text-xs sm:text-sm text-charcoal tracking-tight">
-                      Care at Your Own Pace
-                    </h4>
-                    <p className="font-body text-[11px] sm:text-xs text-charcoal/70 leading-relaxed font-normal">
-                      Support is guided by your needs and comfort.
-                    </p>
-                  </div>
-                </div>
+            {/* REASSURANCE: Positioned directly below the accordions */}
+            <div className="mt-6 pt-5 border-t border-sand/20 px-3 sm:px-4">
+              <div className="flex items-start sm:items-center gap-3 bg-sand-pale/50 rounded-xl p-3.5 sm:p-4 border border-sand/25">
+                <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5 text-sand-dark shrink-0 mt-0.5 sm:mt-0" strokeWidth={2.2} />
+                <p className="font-body text-xs sm:text-sm text-charcoal/85 font-medium leading-relaxed">
+                  Your concerns deserve to be understood at your own pace.
+                </p>
               </div>
             </div>
 

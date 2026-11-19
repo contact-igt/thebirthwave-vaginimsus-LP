@@ -3,7 +3,6 @@ import {
   Star,
   ExternalLink,
   ShieldCheck,
-  HeartHandshake,
   CheckCircle2,
   ChevronLeft,
   ChevronRight,
@@ -130,7 +129,6 @@ export const Testimonials: React.FC = () => {
     setCanScrollLeft(scrollLeft > 10);
     setCanScrollRight(scrollLeft + clientWidth < scrollWidth - 10);
 
-    // Approximate active card index
     const cardWidth = el.firstElementChild
       ? (el.firstElementChild as HTMLElement).offsetWidth + 24
       : clientWidth;
@@ -202,12 +200,12 @@ export const Testimonials: React.FC = () => {
               />
             </svg>
             <span className="font-heading font-semibold text-xs text-sand-deep tracking-wider uppercase">
-              Verified Google Reviews & Stories
+              Verified Google Reviews &amp; Stories
             </span>
           </div>
 
           <h2 className="font-heading font-semibold sm:font-bold text-2xl sm:text-3xl lg:text-[36px] leading-[1.18] text-charcoal tracking-tight">
-            Loved & Trusted by Women Across Chennai
+            Loved &amp; Trusted by Women Across Chennai
           </h2>
           <p className="font-body text-sm sm:text-base text-charcoal/80 leading-relaxed max-w-2xl mx-auto">
             Real stories from individuals and couples who found relief, gentle guidance, and unconditional emotional safety at The Birthwave.
@@ -315,7 +313,6 @@ export const Testimonials: React.FC = () => {
                     </div>
 
                     <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-cream text-[11px] font-medium text-charcoal/70 border border-sand/15">
-                      {/* Google G icon */}
                       <svg className="w-3 h-3 shrink-0" viewBox="0 0 24 24" aria-hidden="true">
                         <path
                           fill="#4285F4"
@@ -428,38 +425,17 @@ export const Testimonials: React.FC = () => {
           </div>
         </div>
 
-        {/* Reassurance Banner & Direct CTA */}
-        <div className="mt-10 sm:mt-12 bg-gradient-to-r from-[#FAF1EC] via-white to-[#FAF1EC] rounded-2xl p-6 sm:p-8 border border-sand/30 shadow-soft max-w-4xl mx-auto text-center space-y-4">
-          <div className="w-12 h-12 rounded-full bg-sand-pale text-sand-dark flex items-center justify-center mx-auto">
-            <HeartHandshake className="w-6 h-6" />
-          </div>
-
-          <div className="space-y-1.5">
-            <h3 className="font-heading font-bold text-lg sm:text-xl text-charcoal">
-              Every Journey is Kept Strictly Confidential
-            </h3>
-            <p className="font-body text-xs sm:text-sm text-charcoal/75 max-w-xl mx-auto leading-relaxed">
-              We respect your personal privacy. You never have to face vaginismus in isolation. Talk to us at your pace, in a private, gentle consultation.
-            </p>
-          </div>
-
-          <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
-            <a
-              href="#contact"
-              className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3 rounded-full bg-sand-dark hover:bg-sand-deep text-white font-heading font-medium text-sm transition-all duration-200 shadow-soft hover:shadow-soft-lg hover:-translate-y-0.5"
-            >
-              Book a Confidential Consultation
-            </a>
-            <a
-              href="https://www.google.com/maps/search/?api=1&query=The+Birthwave+Mahalingapuram+Main+Road+Chennai"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-white hover:bg-sand-pale/60 text-charcoal border border-sand/30 font-heading font-medium text-sm transition-all duration-200"
-            >
-              <span>Read All Google Reviews</span>
-              <ExternalLink className="w-3.5 h-3.5 text-sand-dark" />
-            </a>
-          </div>
+        {/* External Link to All Google Reviews */}
+        <div className="mt-8 text-center">
+          <a
+            href="https://www.google.com/maps/search/?api=1&query=The+Birthwave+Mahalingapuram+Main+Road+Chennai"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white hover:bg-sand-pale/60 text-charcoal/80 hover:text-charcoal border border-sand/25 font-heading font-medium text-xs sm:text-sm transition-all duration-200 shadow-2xs"
+          >
+            <span>Read All 100+ Reviews on Google Maps</span>
+            <ExternalLink className="w-3.5 h-3.5 text-sand-dark" />
+          </a>
         </div>
 
       </div>

@@ -19,8 +19,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onLogoClick }) => {
 
   const navLinks = [
     { name: 'Symptoms', href: '#symptoms' },
-    { name: 'Self-Assessment', href: '#assessment', highlight: true },
     { name: 'Care Team', href: '#care-team' },
+    { name: 'Self-Assessment', href: '#assessment', highlight: true },
     { name: 'Reviews', href: '#testimonials' },
     { name: 'FAQs', href: '#faqs' },
     { name: 'Contact', href: '#contact' },

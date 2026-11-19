@@ -8,55 +8,64 @@ export const Hero: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-8 xl:gap-10 items-start">
 
-          {/* Left Column: Service Tag, Headline, Narrative, Actions, Supporting Info */}
+          {/* Left Column: Eyebrow, Headline, Narrative, Actions, Trust line */}
           <div className="lg:col-span-7 space-y-5 lg:space-y-6 xl:space-y-6 lg:pt-1">
 
-            {/* Approved Service Label */}
+            {/* Eyebrow */}
             <div className="inline-flex items-center px-3.5 py-1 rounded-full bg-sand-pale/70 text-sand-deep font-heading text-xs font-semibold uppercase tracking-[0.12em] border border-sand/20">
-              <span>VAGINISMUS CARE · THE BIRTHWAVE</span>
+              <span>VAGINISMUS &amp; INTIMATE HEALTH CARE · THE BIRTHWAVE</span>
             </div>
 
-            {/* Approved H1 Heading */}
+            {/* H1 Heading */}
             <h1 className="text-2xl sm:text-3xl lg:text-[34px] xl:text-[40px] font-heading font-semibold sm:font-bold text-charcoal tracking-tight leading-[1.18] max-w-2xl">
-              Vaginismus: Understanding Painful Penetration and Care Options
+              Understanding Vaginismus and Your Care Options
             </h1>
 
-            {/* Approved Narrative Description */}
-            <p className="text-sm sm:text-base lg:text-[15px] xl:text-base text-charcoal/85 leading-relaxed font-normal max-w-2xl font-body">
-              Vaginismus can make penetration or vaginal examinations painful or difficult. Learn about common experiences, possible care approaches and what to expect when discussing your concerns with The Birthwave in Chennai.
-            </p>
+            {/* Narrative Description */}
+            <div className="space-y-3 max-w-2xl text-charcoal/85 font-body text-sm sm:text-base lg:text-[15px] xl:text-base leading-relaxed font-normal">
+              <p>
+                Pain, tightness or difficulty with vaginal penetration can be uncomfortable and confusing. Understanding what you are experiencing is the first step.
+              </p>
+              <p>
+                At The BirthWave, Chennai, you can explore your symptoms privately, learn about available care and discuss your concerns with a healthcare professional.
+              </p>
+            </div>
 
-            {/* Clear Primary & Secondary CTAs */}
+            {/* Primary & Secondary CTAs */}
             <div className="pt-2 sm:pt-3 flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5">
               <a
-                href="#contact"
-                className="inline-flex items-center justify-center gap-2 px-6 py-3.5 text-sm sm:text-base font-heading font-semibold text-white bg-sand-dark hover:bg-[#F88379] rounded-full transition-all duration-200 shadow-xs hover:shadow-md text-center tracking-[0.01em]"
+                href="#assessment"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3.5 text-sm sm:text-base font-heading font-semibold text-white bg-sand-dark hover:bg-sand-deep rounded-full transition-all duration-200 shadow-xs hover:shadow-md text-center tracking-[0.01em]"
               >
-                <Calendar className="w-4 h-4 text-white" />
-                <span>Book a Consultation</span>
+                <ClipboardCheck className="w-4 h-4 text-white" />
+                <span>Start Private Self-Assessment</span>
               </a>
 
               <a
-                href="#assessment"
+                href="#first-visit"
                 className="inline-flex items-center justify-center gap-2 px-6 py-3.5 text-sm sm:text-base font-heading font-semibold text-sand-deep bg-sand-pale hover:bg-sand-light/60 border border-sand/30 rounded-full transition-all text-center tracking-[0.01em]"
               >
-                <ClipboardCheck className="w-4 h-4 text-sand" />
-                <span>Start Self-Assessment</span>
+                <Calendar className="w-4 h-4 text-sand-dark" />
+                <span>Explore Consultation Options</span>
               </a>
             </div>
 
-            {/* Factual, Clinic-Aligned Supporting Information */}
+            {/* Trust line */}
             <div className="pt-2 flex items-center gap-2 text-xs sm:text-sm text-muted font-normal sm:font-medium font-body">
-              <span>Doctor-led consultations by appointment • Nungambakkam, Chennai</span>
+              <span>Private consultations · Online &amp; in person · Nungambakkam, Chennai</span>
             </div>
 
           </div>
 
-          {/* Right Column: Appointment Form (Desktop & Mobile accessible, fills vertical space gracefully) */}
+          {/* Right Column: Hero Enquiry Card */}
           <div className="lg:col-span-5 w-full max-w-md mx-auto lg:max-w-none">
             <div className="animate-float-card-2">
               <AppointmentForm
                 idPrefix="hero"
+                title="Take Your First Step Privately"
+                subtitle="Not ready to discuss your symptoms? Begin with a self-assessment, or request an appointment directly if you prefer."
+                submitButtonText="Request a Consultation"
+                reassuranceNote="You do not need to describe your intimate symptoms to submit an appointment request."
                 className="shadow-soft lg:shadow-soft-lg"
               />
             </div>

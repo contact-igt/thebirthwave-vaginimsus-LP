@@ -26,6 +26,10 @@ export const ContactSection: React.FC = () => {
           <div className="order-2 lg:order-1 lg:col-span-6 xl:col-span-6 w-full max-w-lg mx-auto lg:max-w-none">
             <AppointmentForm
               idPrefix="contact"
+              title="Arrange a Private Consultation"
+              subtitle="Choose your preferred consultation format and share only the information needed to arrange your appointment."
+              submitButtonText="Continue to Appointment Confirmation"
+              reassuranceNote="You do not need to describe intimate symptoms here."
               className="bg-white/95 backdrop-blur-xs border border-sand/30 shadow-soft-lg"
             />
           </div>
@@ -33,13 +37,13 @@ export const ContactSection: React.FC = () => {
           {/* RIGHT SIDE: Contact Heading & Description */}
           <div className="order-1 lg:order-2 lg:col-span-6 xl:col-span-6 text-center space-y-3.5 sm:space-y-4 px-2 sm:px-4 lg:px-6">
             <span className="font-heading font-semibold text-xs text-[#E8D4C2] uppercase tracking-[0.14em] block">
-              APPOINTMENTS & INQUIRIES
+              APPOINTMENTS &amp; ENQUIRIES
             </span>
             <h2 className="font-heading font-semibold sm:font-bold text-2xl sm:text-3xl lg:text-[36px] xl:text-[40px] leading-[1.18] text-white tracking-tight">
-              A Private Conversation About Your Care
+              Arrange a Private Consultation
             </h2>
             <p className="font-body text-sm sm:text-base text-white/90 leading-relaxed max-w-md mx-auto">
-              Reach out through the channel you feel most comfortable with. Our team will help you with the next step.
+              Choose your preferred consultation format and share only the information needed to arrange your appointment.
             </p>
           </div>
 
