@@ -1,12 +1,7 @@
-import React, { useState, useRef, useEffect } from 'react';
-import {
-  Star,
-  ExternalLink,
-  ShieldCheck,
-  CheckCircle2,
-  ChevronLeft,
-  ChevronRight,
-} from 'lucide-react';
+import React, { useLayoutEffect, useRef, useState } from 'react';
+import { Star, ExternalLink, HeartHandshake, CheckCircle2, ChevronLeft, ChevronRight, Quote } from 'lucide-react';
+import { circularOffset } from './carouselUtils';
+import './resource-sections.css';
 
 interface Testimonial {
   id: string;
@@ -22,12 +17,10 @@ interface Testimonial {
 }
 
 export const Testimonials: React.FC = () => {
-  const [activeCategory, setActiveCategory] = useState<string>('all');
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(true);
+  const [activeCategory, setActiveCategory] = useState('all');
   const [activeIndex, setActiveIndex] = useState(0);
-
+  const quoteContentRef = useRef<HTMLQuoteElement>(null);
+  const [quoteHeight, setQuoteHeight] = useState<number>();
   const testimonials: Testimonial[] = [
     {
       id: '1',
@@ -117,69 +110,40 @@ export const Testimonials: React.FC = () => {
     { key: 'empathy', label: 'Compassionate Care' },
   ];
 
-  const filtered =
-    activeCategory === 'all'
-      ? testimonials
-      : testimonials.filter((t) => t.category === activeCategory);
+  const filtered = activeCategory === 'all' ? testimonials : testimonials.filter(item => item.category === activeCategory);
+  const selected = filtered[activeIndex];
+  const selectCategory = (key: string) => { setActiveCategory(key); setActiveIndex(0); };
+  const move = (step: number) => setActiveIndex(index => (index + step + filtered.length) % filtered.length);
 
-  const checkScrollState = () => {
-    const el = scrollContainerRef.current;
-    if (!el) return;
-    const { scrollLeft, scrollWidth, clientWidth } = el;
-    setCanScrollLeft(scrollLeft > 10);
-    setCanScrollRight(scrollLeft + clientWidth < scrollWidth - 10);
-
-    const cardWidth = el.firstElementChild
-      ? (el.firstElementChild as HTMLElement).offsetWidth + 24
-      : clientWidth;
-    const idx = Math.round(scrollLeft / cardWidth);
-    setActiveIndex(Math.min(idx, filtered.length - 1));
-  };
-
-  useEffect(() => {
-    checkScrollState();
-    window.addEventListener('resize', checkScrollState);
-    return () => window.removeEventListener('resize', checkScrollState);
-  }, [filtered.length]);
-
-  const handleCategorySelect = (key: string) => {
-    setActiveCategory(key);
-    if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollTo({ left: 0, behavior: 'smooth' });
-    }
-  };
-
-  const scroll = (direction: 'left' | 'right') => {
-    const el = scrollContainerRef.current;
-    if (!el) return;
-    const scrollAmount = el.clientWidth * 0.85;
-    el.scrollBy({
-      left: direction === 'left' ? -scrollAmount : scrollAmount,
-      behavior: 'smooth',
-    });
-  };
-
-  const scrollToIndex = (index: number) => {
-    const el = scrollContainerRef.current;
-    if (!el || !el.children[index]) return;
-    const targetCard = el.children[index] as HTMLElement;
-    el.scrollTo({
-      left: targetCard.offsetLeft - el.offsetLeft,
-      behavior: 'smooth',
-    });
-  };
+  // Follow the real content height, including responsive wrapping and font loading.
+  // Animate the outer height so switching reviews does not snap the selector row.
+  useLayoutEffect(() => {
+    const content = quoteContentRef.current;
+    if (!content) { setQuoteHeight(undefined); return; }
+    const measure = () => setQuoteHeight(Math.ceil(content.getBoundingClientRect().height) + 2);
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(content);
+    return () => observer.disconnect();
+  }, [selected?.id]);
 
   return (
-    <section
-      id="testimonials"
-      className="py-14 md:py-20 scroll-mt-20 md:scroll-mt-24 relative overflow-hidden"
-      aria-label="Patient reviews and testimonials"
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        {/* Section Header */}
-        <div className="max-w-3xl mx-auto text-center space-y-3 mb-8 sm:mb-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-sand-pale/80 border border-sand/30">
+    <section id="testimonials" className="patient-stories py-14 md:py-20 scroll-mt-20 md:scroll-mt-24" aria-label="Patient reviews and testimonials">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
+        <header className="max-w-3xl mx-auto text-center space-y-3 mb-10 sm:mb-12">
+          <p className="font-heading font-semibold text-xs text-sand-dark uppercase tracking-[0.12em]">Patient Stories</p>
+          <h2 className="font-heading font-semibold sm:font-bold text-2xl sm:text-3xl lg:text-[36px] leading-[1.15] text-charcoal tracking-tight">
+            Loved &amp; Trusted by Women Across Chennai
+          </h2>
+          <p className="font-body text-sm sm:text-base text-charcoal/80 leading-relaxed max-w-2xl mx-auto">
+            Real stories from individuals and couples who found relief, gentle guidance, and unconditional emotional safety at The Birthwave.
+          </p>
+        </header>
+        <div className="stories-body">
+        <div className="stories-layout">
+          <div className="stories-intro space-y-4">
+            <div className="stories-summary">
+<div className="stories-google-badge inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-sand-pale/80 border border-sand/30">
             {/* Google "G" Icon */}
             <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24" aria-hidden="true">
               <path
@@ -203,239 +167,111 @@ export const Testimonials: React.FC = () => {
               Verified Google Reviews &amp; Stories
             </span>
           </div>
-
-          <h2 className="font-heading font-semibold sm:font-bold text-2xl sm:text-3xl lg:text-[36px] leading-[1.18] text-charcoal tracking-tight">
-            Loved &amp; Trusted by Women Across Chennai
-          </h2>
-          <p className="font-body text-sm sm:text-base text-charcoal/80 leading-relaxed max-w-2xl mx-auto">
-            Real stories from individuals and couples who found relief, gentle guidance, and unconditional emotional safety at The Birthwave.
-          </p>
-
-          {/* Social Proof Rating Bar */}
-          <div className="pt-2 flex flex-wrap items-center justify-center gap-3 sm:gap-6 text-xs sm:text-sm text-charcoal/85">
-            <div className="flex items-center gap-1.5 bg-white/90 backdrop-blur-xs px-3.5 py-1.5 rounded-full border border-sand/20 shadow-xs">
+            </div>
+            <h3 className="font-heading font-semibold text-lg sm:text-xl text-charcoal text-center">Explore Stories</h3>
+<div className="stories-filters flex flex-wrap justify-center gap-2 pt-2" aria-label="Filter patient stories">
+              {categories.map(category => (
+                <button key={category.key} type="button" aria-pressed={activeCategory === category.key}
+                  onClick={() => selectCategory(category.key)}
+                  className={`story-filter ${activeCategory === category.key ? 'is-selected' : ''}`}>
+                  {category.label}
+                </button>
+              ))}
+            </div>
+            <div className="stories-links flex flex-col sm:flex-row flex-wrap items-center justify-center gap-3">
+              {['View on Google Maps', 'Read All Google Reviews'].map(label => (
+                <a key={label} href="https://www.google.com/maps/search/?api=1&query=The+Birthwave+Mahalingapuram+Main+Road+Chennai"
+                  target="_blank" rel="noopener noreferrer"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full bg-sand-dark hover:bg-sand-deep text-white border border-transparent font-heading font-medium text-sm transition-all duration-200">
+                  {label}<ExternalLink className="w-3.5 h-3.5 text-white" aria-hidden="true" />
+                </a>
+              ))}
+            </div>
+            <div className="stories-trust-row">
+              <div className="flex items-center gap-1.5 text-sm text-muted">
+                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" aria-hidden="true" />
+                <span>100% Confidential Care</span>
+              </div>
+<div className="stories-google-rating shrink-0 flex items-center gap-1 bg-white/90 backdrop-blur-xs px-2.5 py-1 rounded-full border border-sand/20 shadow-xs">
               <span className="font-heading font-bold text-charcoal">4.9</span>
-              <div className="flex items-center text-amber-500" aria-label="5 out of 5 stars">
+              <div className="flex items-center text-amber-500" aria-label="4.9 out of 5 stars">
                 {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
+                  <Star key={i} className="w-3 h-3 fill-amber-400 text-amber-400" />
                 ))}
               </div>
-              <span className="text-muted text-[11px] sm:text-xs">on Google Reviews</span>
+              <span className="sr-only">on Google Reviews</span>
             </div>
-
-            <div className="flex items-center gap-1.5 text-muted">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-              <span>100% Confidential Care</span>
             </div>
+          </div>
+          <div className="stories-display">
+            <div className="story-quote" style={{ height: quoteHeight }} aria-live="polite" aria-atomic="true">
+              {selected ? <blockquote key={selected.id} ref={quoteContentRef} className="story-text">
+                <div className="story-quote-heading">
+                  <Quote className="text-sand" size={34} aria-hidden="true" />
+                  <div className="story-rating-meta">
+                    <div className="flex items-center gap-1 text-amber-400" role="img" aria-label={`${selected.rating} out of 5 stars`}>
+                      {Array.from({ length: selected.rating }, (_, index) => <Star key={index} className="w-4 h-4 fill-amber-400 text-amber-400" aria-hidden="true" />)}
+                    </div>
+                    <span className="story-rating-separator" aria-hidden="true">·</span>
+                    <span className="story-review-meta">{selected.timeAgo}</span>
+                  </div>
+                </div>
+                <h3 className="font-heading font-semibold text-xl sm:text-2xl leading-relaxed mb-4">{selected.headline}</h3>
+                <p className="text-base text-charcoal/80 leading-relaxed">{selected.story}</p>
+              </blockquote> : <p>No stories are available in this category.</p>}
+            </div>
+          </div>
+        </div>
+        <div className="stories-selector-area">
+            <div className="story-selector" onKeyDown={event => {
+              if (filtered.length < 2) return;
+              if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+                event.preventDefault(); move(event.key === 'ArrowRight' ? 1 : -1);
+              }
+            }}>
+              {filtered.length > 1 && <button type="button" className="resource-arrow" aria-label="Previous review" onClick={() => move(-1)}><ChevronLeft aria-hidden="true" /></button>}
+              <div className={`story-profiles ${filtered.length === 2 ? 'has-two' : ''}`}>
+                {filtered.map((item, index) => {
+                  const offset = circularOffset(index, activeIndex, filtered.length);
+                  const visible = Math.abs(offset) <= 1;
+                  const active = index === activeIndex;
+                  return <button key={item.id} type="button" className={`story-profile ${active ? 'is-active' : ''}`}
+                    data-visible={visible} style={{ '--position': offset } as React.CSSProperties}
+                    aria-hidden={!visible} tabIndex={visible ? 0 : -1} aria-pressed={active}
+                    aria-label={`Read ${item.name}'s story`} onClick={() => setActiveIndex(index)}>
+                    <span className={`story-avatar bg-gradient-to-br ${item.accentColor}`} aria-hidden="true">{(item.name.match(/\p{L}+/gu) || []).map(part => part[0]).slice(0, 2).join('').toUpperCase()}</span>
+                    <span className="story-name">{item.name}</span>
+                    <span className="story-category">{item.categoryLabel}</span>
+                  </button>;
+                })}
+              </div>
+              {filtered.length > 1 && <button type="button" className="resource-arrow" aria-label="Next review" onClick={() => move(1)}><ChevronRight aria-hidden="true" /></button>}
+            </div>
+        </div>
+        </div>
+        {/* Reassurance Banner & Direct CTA */}
+        <div className="stories-confidentiality bg-gradient-to-r from-[#FAF1EC] via-white to-[#FAF1EC] rounded-2xl p-6 sm:p-8 border border-sand/30 shadow-soft max-w-4xl mx-auto text-center space-y-4">
+          <div className="w-12 h-12 rounded-full bg-sand-pale text-sand-dark flex items-center justify-center mx-auto">
+            <HeartHandshake className="w-6 h-6" />
+          </div>
 
+          <div className="space-y-1.5">
+            <h3 className="font-heading font-bold text-lg sm:text-xl text-charcoal">
+              Every Journey is Kept Strictly Confidential
+            </h3>
+            <p className="font-body text-xs sm:text-sm text-charcoal/75 max-w-xl mx-auto leading-relaxed">
+              We respect your personal privacy. You never have to face vaginismus in isolation. Talk to us at your pace, in a private, gentle consultation.
+            </p>
+          </div>
+
+          <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
             <a
-              href="https://www.google.com/maps/search/?api=1&query=The+Birthwave+Mahalingapuram+Main+Road+Chennai"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 text-sand-dark hover:text-sand-deep font-semibold underline underline-offset-4 transition-colors"
+              href="#contact"
+              className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3 rounded-full bg-sand-dark hover:bg-sand-deep text-white font-heading font-medium text-sm transition-all duration-200 shadow-soft hover:shadow-soft-lg hover:-translate-y-0.5"
             >
-              <span>View on Google Maps</span>
-              <ExternalLink className="w-3.5 h-3.5" />
+              Book a Confidential Consultation
             </a>
           </div>
-        </div>
-
-        {/* Filter Tabs + Navigation Arrows Toolbar */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-6 sm:mb-8">
-          {/* Category Filter Pills */}
-          <div className="flex items-center flex-wrap justify-center sm:justify-start gap-2">
-            {categories.map((cat) => (
-              <button
-                key={cat.key}
-                type="button"
-                onClick={() => handleCategorySelect(cat.key)}
-                className={`px-3.5 py-1.5 rounded-full text-xs font-heading font-medium transition-all ${
-                  activeCategory === cat.key
-                    ? 'bg-sand-dark text-white shadow-xs'
-                    : 'bg-white/80 text-charcoal/80 hover:bg-sand-pale/60 border border-sand/20'
-                }`}
-              >
-                {cat.label}
-              </button>
-            ))}
-          </div>
-
-          {/* Navigation Arrows for the Single Row Carousel */}
-          <div className="hidden sm:flex items-center gap-2 shrink-0">
-            <button
-              type="button"
-              onClick={() => scroll('left')}
-              disabled={!canScrollLeft}
-              className={`w-9 h-9 rounded-full flex items-center justify-center border transition-all ${
-                canScrollLeft
-                  ? 'bg-white border-sand/30 text-charcoal hover:bg-sand-pale/60 hover:border-sand-dark shadow-xs'
-                  : 'bg-cream border-sand/15 text-charcoal/30 cursor-not-allowed'
-              }`}
-              aria-label="Previous review"
-            >
-              <ChevronLeft className="w-5 h-5" />
-            </button>
-            <button
-              type="button"
-              onClick={() => scroll('right')}
-              disabled={!canScrollRight}
-              className={`w-9 h-9 rounded-full flex items-center justify-center border transition-all ${
-                canScrollRight
-                  ? 'bg-white border-sand/30 text-charcoal hover:bg-sand-pale/60 hover:border-sand-dark shadow-xs'
-                  : 'bg-cream border-sand/15 text-charcoal/30 cursor-not-allowed'
-              }`}
-              aria-label="Next review"
-            >
-              <ChevronRight className="w-5 h-5" />
-            </button>
-          </div>
-        </div>
-
-        {/* SINGLE ROW TESTIMONIALS CAROUSEL */}
-        <div className="relative -mx-4 px-4 sm:mx-0 sm:px-0">
-          <div
-            ref={scrollContainerRef}
-            onScroll={checkScrollState}
-            className="flex gap-5 sm:gap-6 overflow-x-auto no-scrollbar scroll-smooth snap-x snap-mandatory py-2 items-stretch"
-          >
-            {filtered.map((item) => (
-              <div
-                key={item.id}
-                className="w-[85vw] sm:w-[380px] lg:w-[calc((100%-48px)/3)] shrink-0 snap-start bg-white/95 backdrop-blur-xs rounded-2xl p-6 sm:p-7 border border-sand/25 shadow-soft hover:shadow-soft-lg hover:border-sand/40 transition-all duration-200 flex flex-col justify-between group"
-              >
-                <div>
-                  {/* Header: Stars & Google Badge */}
-                  <div className="flex items-center justify-between gap-2 mb-4">
-                    <div className="flex items-center text-amber-400" aria-label="5 star rating">
-                      {[...Array(item.rating)].map((_, i) => (
-                        <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />
-                      ))}
-                    </div>
-
-                    <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-cream text-[11px] font-medium text-charcoal/70 border border-sand/15">
-                      <svg className="w-3 h-3 shrink-0" viewBox="0 0 24 24" aria-hidden="true">
-                        <path
-                          fill="#4285F4"
-                          d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z"
-                        />
-                        <path
-                          fill="#34A853"
-                          d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z"
-                        />
-                        <path
-                          fill="#FBBC05"
-                          d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15z"
-                        />
-                        <path
-                          fill="#EA4335"
-                          d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"
-                        />
-                      </svg>
-                      <span>Google Review</span>
-                    </div>
-                  </div>
-
-                  {/* Emotional Headline */}
-                  <h3 className="font-heading font-semibold text-charcoal text-base sm:text-[17px] leading-snug mb-3 line-clamp-2">
-                    {item.headline}
-                  </h3>
-
-                  {/* Narrative Body */}
-                  <p className="font-body text-xs sm:text-sm text-charcoal/80 leading-relaxed mb-6">
-                    {item.story}
-                  </p>
-                </div>
-
-                {/* Author & Category Footer */}
-                <div className="pt-4 border-t border-sand/15 flex items-center justify-between gap-3 mt-auto">
-                  <div className="flex items-center gap-3">
-                    <div
-                      className={`w-9 h-9 rounded-full bg-gradient-to-br ${item.accentColor} text-white font-heading font-semibold text-xs flex items-center justify-center shrink-0 shadow-xs`}
-                    >
-                      {item.initials}
-                    </div>
-                    <div>
-                      <div className="font-heading font-semibold text-xs sm:text-sm text-charcoal flex items-center gap-1.5">
-                        <span>{item.name}</span>
-                        <ShieldCheck className="w-3.5 h-3.5 text-sand-dark" title="Verified Review" />
-                      </div>
-                      <span className="text-[11px] text-muted block">{item.timeAgo}</span>
-                    </div>
-                  </div>
-
-                  <span className="text-[10px] sm:text-[11px] font-medium px-2.5 py-1 rounded-full bg-sand-pale/60 text-sand-deep border border-sand/20 shrink-0">
-                    {item.categoryLabel}
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Mobile / Tablet Controls: Dots & Quick Arrows */}
-        <div className="flex items-center justify-between sm:justify-center gap-4 mt-6">
-          <div className="flex sm:hidden items-center gap-2">
-            <button
-              type="button"
-              onClick={() => scroll('left')}
-              disabled={!canScrollLeft}
-              className={`w-8 h-8 rounded-full flex items-center justify-center border transition-all ${
-                canScrollLeft
-                  ? 'bg-white border-sand/30 text-charcoal'
-                  : 'bg-cream border-sand/15 text-charcoal/30'
-              }`}
-              aria-label="Previous review"
-            >
-              <ChevronLeft className="w-4 h-4" />
-            </button>
-            <button
-              type="button"
-              onClick={() => scroll('right')}
-              disabled={!canScrollRight}
-              className={`w-8 h-8 rounded-full flex items-center justify-center border transition-all ${
-                canScrollRight
-                  ? 'bg-white border-sand/30 text-charcoal'
-                  : 'bg-cream border-sand/15 text-charcoal/30'
-              }`}
-              aria-label="Next review"
-            >
-              <ChevronRight className="w-4 h-4" />
-            </button>
-          </div>
-
-          {/* Dot Indicators */}
-          <div className="flex items-center justify-center gap-1.5">
-            {filtered.map((_, idx) => (
-              <button
-                key={idx}
-                type="button"
-                onClick={() => scrollToIndex(idx)}
-                className={`transition-all rounded-full ${
-                  activeIndex === idx
-                    ? 'w-6 h-2 bg-sand-dark'
-                    : 'w-2 h-2 bg-sand/30 hover:bg-sand/60'
-                }`}
-                aria-label={`Go to review ${idx + 1}`}
-              />
-            ))}
-          </div>
-
-          <div className="text-[11px] text-muted font-body sm:hidden">
-            {activeIndex + 1} of {filtered.length}
-          </div>
-        </div>
-
-        {/* External Link to All Google Reviews */}
-        <div className="mt-8 text-center">
-          <a
-            href="https://www.google.com/maps/search/?api=1&query=The+Birthwave+Mahalingapuram+Main+Road+Chennai"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white hover:bg-sand-pale/60 text-charcoal/80 hover:text-charcoal border border-sand/25 font-heading font-medium text-xs sm:text-sm transition-all duration-200 shadow-2xs"
-          >
-            <span>Read All 100+ Reviews on Google Maps</span>
-            <ExternalLink className="w-3.5 h-3.5 text-sand-dark" />
-          </a>
         </div>
 
       </div>
