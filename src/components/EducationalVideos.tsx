@@ -6,10 +6,10 @@ import './resource-sections.css';
 // Descriptions intentionally cover only topics supported by those titles.
 export const educationalVideos = [
   {
-    id: '18VRfLcGT8E', title: 'What Is Vaginismus?', presenter: 'Dr. Santoshi Nandigam',
-    originalTitle: 'What Is Vaginismus? The Pain No One Talks About 💬',
-    description: 'An introduction to vaginismus and the pain associated with it.',
-    url: 'https://www.youtube.com/watch?v=18VRfLcGT8E',
+    id: 'Jl7r4gMAxiU', title: 'Understanding Vaginismus and the Pelvic Floor', presenter: 'Dr. Adithi N (PT)',
+    originalTitle: 'Understanding Vaginismus | Dr. Adithi N (PT)',
+    description: 'An introduction to vaginismus from a physiotherapy perspective.',
+    url: 'https://www.youtube.com/watch?v=Jl7r4gMAxiU',
   },
   {
     id: 'cIdZFcD4ViQ', title: 'Understanding Vaginismus and Recovery', presenter: 'Dr. Santoshi Nandigam',
@@ -24,10 +24,10 @@ export const educationalVideos = [
     url: 'https://www.youtube.com/watch?v=W9taElo392U',
   },
   {
-    id: 'Jl7r4gMAxiU', title: 'Understanding Vaginismus and the Pelvic Floor', presenter: 'Dr. Adithi N (PT)',
-    originalTitle: 'Understanding Vaginismus | Dr. Adithi N (PT)',
-    description: 'An introduction to vaginismus from a physiotherapy perspective.',
-    url: 'https://www.youtube.com/watch?v=Jl7r4gMAxiU',
+    id: '18VRfLcGT8E', title: 'What Is Vaginismus?', presenter: 'Dr. Santoshi Nandigam',
+    originalTitle: 'What Is Vaginismus? The Pain No One Talks About 💬',
+    description: 'An introduction to vaginismus and the pain associated with it.',
+    url: 'https://www.youtube.com/watch?v=18VRfLcGT8E',
   },
   {
     id: 'P29TlC9lDz0', title: 'Pain During Intimacy and Vaginismus Care', presenter: 'Dr. Aditi (PT)',
@@ -39,7 +39,7 @@ export const educationalVideos = [
     id: 'euwj9YnQzUQ', title: 'Can You Use Tampons and Still Have Vaginismus?', presenter: null,
     originalTitle: 'Can You Use Tampons and Still Have Vaginismus? Understanding Pelvic Floor Tightness & Pain',
     description: 'Explore whether tampon use can coexist with vaginismus, pelvic floor tightness and penetration related pain.',
-    url: 'https://www.youtube.com/shorts/euwj9YnQzUQ',
+    url: 'https://www.youtube.com/watch?v=euwj9YnQzUQ',
   },
 ];
 
