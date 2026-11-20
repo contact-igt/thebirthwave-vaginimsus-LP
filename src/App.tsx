@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FixedBackgroundLines } from './components/FixedBackgroundLines';
 import { Navbar } from './components/Navbar';
-import { CareProgramme, IndividualizedCare } from './components/CareProgramme';
-import { WhatsAppEnquiry } from './components/WhatsAppEnquiry';
 import { Hero } from './components/Hero';
 import { Understanding } from './components/Understanding';
 import { RecognisingExperiences } from './components/RecognisingExperiences';
@@ -10,7 +8,6 @@ import { WhenToConsiderConversation } from './components/WhenToConsiderConversat
 import { InteractiveAssessment } from './components/InteractiveAssessment';
 import { FirstConsultation } from './components/FirstConsultation';
 import { CareTeam } from './components/CareTeam';
-import { EducationalVideos } from './components/EducationalVideos';
 import { Testimonials } from './components/Testimonials';
 import { FAQSection } from './components/FAQSection';
 import { ContactSection } from './components/ContactSection';
@@ -85,10 +82,7 @@ export const App: React.FC = () => {
             <WhenToConsiderConversation />
             <InteractiveAssessment />
             <FirstConsultation />
-            <CareProgramme />
-            <IndividualizedCare />
             <CareTeam />
-            <EducationalVideos />
             <Testimonials />
             <FAQSection />
             <ContactSection />
@@ -97,7 +91,7 @@ export const App: React.FC = () => {
       </main>
 
       <Footer />
-      {!isThankYou && <><FloatingContactBar /><WhatsAppEnquiry /></>}
+      {!isThankYou && <FloatingContactBar />}
     </div>
   );
 };
