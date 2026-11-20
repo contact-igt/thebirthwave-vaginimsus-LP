@@ -19,6 +19,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onLogoClick }) => {
 
   const navLinks = [
     { name: 'Symptoms', href: '#symptoms' },
+    { name: 'Treatment Programme', href: '#treatment-programme' },
     { name: 'Care Team', href: '#care-team' },
     { name: 'Self-Assessment', href: '#assessment', highlight: true },
     { name: 'Reviews', href: '#testimonials' },
@@ -59,7 +60,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onLogoClick }) => {
           </div>
 
           {/* Center: Dedicated Landing Page Navigation Links */}
-          <nav className="hidden lg:flex items-center justify-center gap-2.5 xl:gap-4 2xl:gap-5 flex-1">
+          <nav className="hidden xl:flex items-center justify-center gap-2.5 xl:gap-4 2xl:gap-5 flex-1">
             {navLinks.map((link) => (
               <a
                 key={link.name}
@@ -88,7 +89,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onLogoClick }) => {
           </div>
 
           {/* Mobile Menu Button */}
-          <div className="flex items-center gap-2 lg:hidden">
+          <div className="flex items-center gap-2 xl:hidden">
             <a
               href="#contact"
               className="sm:hidden inline-flex items-center justify-center gap-1.5 px-3.5 py-1.5 text-xs font-heading font-semibold text-white bg-sand-dark hover:bg-sand-deep rounded-full whitespace-nowrap flex-shrink-0"
@@ -111,7 +112,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onLogoClick }) => {
 
       {/* Mobile Navigation Dropdown */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-cream px-4 pt-3 pb-5 space-y-3 border-b border-sand/15 animate-fadeIn">
+        <div className="xl:hidden bg-cream px-4 pt-3 pb-5 space-y-3 border-b border-sand/15 animate-fadeIn">
           <nav className="flex flex-col space-y-2">
             {navLinks.map((link) => (
               <a

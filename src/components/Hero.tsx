@@ -18,9 +18,19 @@ export const Hero: React.FC = () => {
 
             {/* H1 Heading */}
             <h1 className="text-2xl sm:text-3xl lg:text-[34px] xl:text-[40px] font-heading font-semibold sm:font-bold text-charcoal tracking-tight leading-[1.18] max-w-2xl">
-              Understanding Vaginismus and Your Care Options
+              Vaginismus Care That Brings the Mind and Body Together
             </h1>
 
+            <p className="font-heading font-semibold text-base sm:text-lg text-sand-dark">An Individualized, Multidisciplinary Vaginismus Programme</p>
+            {/* Approved Narrative Description */}
+            <p className="text-sm sm:text-base lg:text-[15px] xl:text-base text-charcoal/85 leading-relaxed font-normal max-w-2xl font-body">
+              At The BirthWave, vaginismus care brings together gynaecology, individualized pelvic floor physiotherapy, counselling, hypnotherapy when appropriate, yoga and meditation. Our approach considers your physical and emotional well-being, with assessment and treatment guided by your individual needs.
+            </p>
+
+            <div className="grid grid-cols-2 gap-2 text-sm text-sand-deep">
+              {['Gynaecological Care', 'Individualized Pelvic Floor Physiotherapy', 'Counselling & Hypnotherapy', 'Yoga & Meditation'].map(item => <div key={item} className="rounded-xl bg-sand-pale/70 border border-sand/20 p-3">{item}</div>)}
+            </div>
+            <p className="text-sm text-muted">In-person, individualized care in Chennai.</p>
             {/* Narrative Description */}
             <div className="space-y-3 max-w-2xl text-charcoal/85 font-body text-sm sm:text-base lg:text-[15px] xl:text-base leading-relaxed font-normal">
               <p>
@@ -31,7 +41,7 @@ export const Hero: React.FC = () => {
               </p>
             </div>
 
-            {/* Primary & Secondary CTAs */}
+            {/* Clear Primary & Secondary CTAs */}
             <div className="pt-2 sm:pt-3 flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5">
               <a
                 href="#assessment"

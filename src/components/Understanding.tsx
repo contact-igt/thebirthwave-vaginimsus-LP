@@ -95,7 +95,7 @@ export const Understanding: React.FC = () => {
               <img
                 src="/brand/uterus-heart-symbol.svg"
                 alt="The Birthwave anatomical uterus and heart symbol"
-                className="relative z-10 w-56 h-56 sm:w-64 sm:h-64 md:w-72 md:h-72 lg:w-72 lg:h-72 xl:w-80 xl:h-80 object-contain drop-shadow-xs transition-transform duration-500 hover:scale-[1.02]"
+                className="relative z-10 w-72 h-72 sm:w-80 sm:h-80 md:w-96 md:h-96 lg:w-96 lg:h-96 xl:w-[420px] xl:h-[420px] max-w-full object-contain drop-shadow-xs transition-transform duration-500 hover:scale-[1.02]"
                 loading="lazy"
               />
             </div>
@@ -166,13 +166,35 @@ export const Understanding: React.FC = () => {
               })}
             </div>
 
-            {/* REASSURANCE: Positioned directly below the accordions */}
-            <div className="mt-6 pt-5 border-t border-sand/20 px-3 sm:px-4">
-              <div className="flex items-start sm:items-center gap-3 bg-sand-pale/50 rounded-xl p-3.5 sm:p-4 border border-sand/25">
-                <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5 text-sand-dark shrink-0 mt-0.5 sm:mt-0" strokeWidth={2.2} />
-                <p className="font-body text-xs sm:text-sm text-charcoal/85 font-medium leading-relaxed">
-                  Your concerns deserve to be understood at your own pace.
-                </p>
+            <p className="mt-4 font-body text-xs sm:text-sm text-charcoal/85">Your concerns deserve to be understood at your own pace.</p>
+            {/* TWO REASSURANCE ITEMS: Positioned directly below the third expandable item */}
+            <div className="mt-5 p-4 sm:p-5 rounded-2xl border border-sand/30 bg-sand-pale/70 shadow-soft">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
+                {/* Reassurance Item 1 */}
+                <div className="flex items-start gap-2.5 sm:gap-3">
+                  <CheckCircle2 className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-sand-dark shrink-0 mt-0.5" strokeWidth={2.2} />
+                  <div className="space-y-0.5">
+                    <h4 className="font-heading font-semibold text-xs sm:text-sm text-charcoal tracking-tight">
+                      Not Your Fault
+                    </h4>
+                    <p className="font-body text-[11px] sm:text-xs text-charcoal/70 leading-relaxed font-normal">
+                      Muscle tightening is automatic, not a choice.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Reassurance Item 2 */}
+                <div className="flex items-start gap-2.5 sm:gap-3">
+                  <CheckCircle2 className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-sand-dark shrink-0 mt-0.5" strokeWidth={2.2} />
+                  <div className="space-y-0.5">
+                    <h4 className="font-heading font-semibold text-xs sm:text-sm text-charcoal tracking-tight">
+                      Care at Your Own Pace
+                    </h4>
+                    <p className="font-body text-[11px] sm:text-xs text-charcoal/70 leading-relaxed font-normal">
+                      Support is guided by your needs and comfort.
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
 
