@@ -111,3 +111,13 @@
  .video-secondary-heading { padding: 10px 16px; gap: 10px; }
 }
 @media (prefers-reduced-motion: reduce) { .video-support-row { scroll-behavior: auto; } }
+
+/* Supplied landscape covers are shown complete, without portrait fill layers. */
+.video-resources .video-thumbnail img.video-local-cover { object-fit: contain; }
+.video-resources .video-thumbnail:focus-visible { outline-offset: -4px; }
+@media (hover: hover) and (pointer: fine) {
+ .video-resources .video-play { opacity: 0; transition: opacity 180ms ease; }
+ .video-resources .video-thumbnail:hover .video-play,
+ .video-resources .video-thumbnail:focus-visible .video-play { opacity: 1; }
+}
+@media (hover: none), (pointer: coarse) { .video-resources .video-play { opacity: 1; } }
