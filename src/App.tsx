@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { FixedBackgroundLines } from './components/FixedBackgroundLines';
 import { Navbar } from './components/Navbar';
+import { CareProgramme, IndividualizedCare, TravellingForCare } from './components/CareProgramme';
+import { WhatsAppEnquiry } from './components/WhatsAppEnquiry';
 import { Hero } from './components/Hero';
 import { Understanding } from './components/Understanding';
 import { RecognisingExperiences } from './components/RecognisingExperiences';
@@ -83,8 +85,11 @@ export const App: React.FC = () => {
             <WhenToConsiderConversation />
             <InteractiveAssessment />
             <FirstConsultation />
+            <CareProgramme />
+            <IndividualizedCare />
             <CareTeam />
             <EducationalVideos />
+            <TravellingForCare />
             <Testimonials />
             <FAQSection />
             <ContactSection />
@@ -93,7 +98,7 @@ export const App: React.FC = () => {
       </main>
 
       <Footer />
-      {!isThankYou && <FloatingContactBar />}
+      {!isThankYou && <><FloatingContactBar /><WhatsAppEnquiry /></>}
     </div>
   );
 };

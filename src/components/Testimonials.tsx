@@ -133,10 +133,10 @@ export const Testimonials: React.FC = () => {
         <header className="max-w-3xl mx-auto text-center space-y-3 mb-10 sm:mb-12">
           <p className="font-heading font-semibold text-xs text-sand-dark uppercase tracking-[0.12em]">Patient Stories</p>
           <h2 className="font-heading font-semibold sm:font-bold text-2xl sm:text-3xl lg:text-[36px] leading-[1.15] text-charcoal tracking-tight">
-            Loved & Trusted by Women Across Chennai
+            Real Stories. Personal Journeys. Meaningful Support.
           </h2>
           <p className="font-body text-sm sm:text-base text-charcoal/80 leading-relaxed max-w-2xl mx-auto">
-            Real stories from individuals and couples who found relief, gentle guidance, and unconditional emotional safety at The Birthwave.
+            Explore experiences shared by women who have sought guidance, individualized care and support at The BirthWave.
           </p>
         </header>
         <div className="stories-body">
@@ -169,7 +169,7 @@ export const Testimonials: React.FC = () => {
           </div>
             </div>
             <h3 className="font-heading font-semibold text-lg sm:text-xl text-charcoal text-center">Explore Stories</h3>
-<div className="stories-filters flex flex-wrap justify-center gap-2 pt-2" aria-label="Filter patient stories">
+<div title="Patient story categories, not treatment packages" className="stories-filters flex flex-wrap justify-center gap-2 pt-2" aria-label="Filter patient stories">
               {categories.map(category => (
                 <button key={category.key} type="button" aria-pressed={activeCategory === category.key}
                   onClick={() => selectCategory(category.key)}

@@ -44,7 +44,7 @@ export const CareTeam: React.FC = () => {
       name: 'Dr. Adithi Nair',
       role: 'Pelvic Floor Therapy · Vaginismus Rehab Specialist',
       description:
-        'Supports women experiencing pelvic-floor concerns, pain and difficulty with penetration.',
+        'Provides individualized pelvic floor physiotherapy and rehabilitation for women experiencing pain, pelvic floor concerns and difficulty with penetration.',
       image: '/images/doctors/dr-adithi.jpg',
       objectPosition: '50% 22%',
     },
@@ -67,7 +67,7 @@ export const CareTeam: React.FC = () => {
             Meet the People Behind Your Care
           </h2>
           <p className="font-body text-sm sm:text-base text-charcoal/80 leading-relaxed max-w-2xl mx-auto">
-            Meet the professionals supporting your health and well-being at The Birthwave.
+            Meet the professionals bringing together gynaecology, individualized pelvic floor physiotherapy, emotional support, yoga and meditation as part of The BirthWave's approach to vaginismus care.
           </p>
         </div>
 
@@ -90,7 +90,7 @@ export const CareTeam: React.FC = () => {
               </div>
 
               {/* Rectangular Information Card */}
-              <div className="bg-white rounded-2xl sm:rounded-3xl border border-sand/20 p-5 sm:p-5.5 pt-14 sm:pt-16 shadow-soft group-hover:shadow-soft-lg group-hover:border-sand/35 transition-all duration-300 flex flex-col justify-between flex-1 text-center group-hover:-translate-y-1">
+              <div className="bg-white rounded-2xl sm:rounded-3xl border border-sand/20 p-5 sm:p-5.5 pt-12 sm:pt-14 shadow-soft group-hover:shadow-soft-lg group-hover:border-sand/35 transition-all duration-300 flex flex-col justify-between flex-1 text-center group-hover:-translate-y-1">
                 
                 {/* Professional Details */}
                 <div className="space-y-1.5 flex flex-col items-center">
@@ -120,7 +120,7 @@ export const CareTeam: React.FC = () => {
                 </div>
 
                 {/* Book a Consultation Button (Pinned Consistently at Bottom) */}
-                <div className="mt-5 pt-4 border-t border-sand/15">
+                <div className="mt-3 pt-3 border-t border-sand/15">
                   <a
                     href="#contact"
                     className="w-full inline-flex items-center justify-center gap-1.5 py-2.5 px-4 font-heading text-xs font-semibold text-white bg-sand-dark hover:bg-coral rounded-full transition-colors shadow-xs"

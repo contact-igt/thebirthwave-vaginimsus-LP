@@ -52,6 +52,11 @@ export const FAQSection: React.FC = () => {
       q: 'Are consultations kept strictly private and confidential?',
       a: 'Yes. All consultations adhere strictly to professional medical confidentiality and privacy standards. Your personal concerns and medical history are kept completely private and are never shared without your permission.',
     },
+    {"q": "Is pelvic floor physiotherapy provided individually or in groups?", "a": "At The BirthWave, pelvic floor physiotherapy is provided through individualized, one-to-one sessions. Assessment and treatment are adapted to each patient's symptoms, needs and comfort."},
+    {"q": "What does the vaginismus care programme include?", "a": "The BirthWave's multidisciplinary approach brings together individualized pelvic floor physiotherapy, gynaecological guidance, counselling, hypnotherapy when appropriate, yoga and meditation, along with access to a WhatsApp support group. Individual care requirements may vary."},
+    {"q": "How many treatment sessions are included?", "a": "The offline programme described by The BirthWave includes 10 individualized physiotherapy sessions of 90 minutes each, 12 yoga and meditation sessions per month of 60 minutes each, and two counselling sessions per month of 60 minutes each. The appropriate treatment plan will be discussed during consultation."},
+    {"q": "Can I visit The BirthWave if I live outside Chennai?", "a": "Yes. Women have travelled from Bengaluru, Madurai, Chidambaram and other locations to seek care at The BirthWave in Chennai. Contact the care team to discuss consultation availability and plan your visit."},
+    {"q": "Is support available during the treatment programme?", "a": "The BirthWave offers access to a WhatsApp support group as an additional source of connection during the care journey. Speak with the care team to understand how the group works and whether you would like to participate."},
   ];
 
   const visibleFaqs = showAll ? faqs : faqs.slice(0, 4);

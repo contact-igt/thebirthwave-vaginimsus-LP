@@ -26,54 +26,54 @@ export const FirstConsultation: React.FC = () => {
   ];
 
   return (
-    <section id="first-visit" className="py-12 md:py-16 scroll-mt-20 md:scroll-mt-24">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="first-visit" className="py-16 md:py-20 scroll-mt-20 md:scroll-mt-24">
+      <div className="max-w-6xl lg:max-w-[1267px] mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header: Centred at the top */}
-        <div className="max-w-2xl mx-auto text-center space-y-2.5 mb-8 sm:mb-10">
+        <div className="max-w-2xl lg:max-w-[740px] mx-auto text-center space-y-2.5 mb-8 sm:mb-10">
           <span className="font-heading font-semibold text-xs text-sand-dark uppercase tracking-[0.12em]">
             FIRST CONSULTATION
           </span>
-          <h2 className="font-heading font-semibold sm:font-bold text-2xl sm:text-3xl lg:text-[34px] leading-[1.18] text-charcoal tracking-tight">
+          <h2 className="font-heading font-semibold sm:font-bold text-2xl sm:text-3xl lg:text-[37.4px] leading-[1.18] text-charcoal tracking-tight">
             What Happens at Your First Vaginismus Consultation?
           </h2>
-          <p className="font-body text-sm sm:text-base text-charcoal/80 leading-relaxed max-w-xl mx-auto">
+          <p className="font-body text-sm sm:text-base lg:text-[17.6px] text-charcoal/80 leading-relaxed max-w-xl lg:max-w-[634px] mx-auto">
             Discuss your concerns and explore your next steps at your own pace.
           </p>
         </div>
 
         {/* Two-Column Main Content Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 xl:gap-10 items-stretch max-w-4xl mx-auto mb-6 sm:mb-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-[35.2px] xl:gap-11 items-stretch max-w-5xl lg:max-w-[1126px] mx-auto mb-6 sm:mb-8">
           
           {/* Left Column – Consultation Image: Balanced composition showing doctor's upper body, both hands, pen and notebook */}
           <div className="lg:col-span-5 relative w-full min-h-0">
             <div className="relative w-full aspect-[5/4] sm:aspect-[4/3] lg:aspect-auto lg:h-full lg:absolute lg:inset-0 rounded-2xl overflow-hidden shadow-xs border border-sand/20">
               <img
-                src="/images/clinic/first-consultation.webp"
+                src="/images/services/doctor-santoshi.webp"
                 alt="Clinician taking notes during a confidential vaginismus consultation"
-                className="w-full h-full object-cover object-[50%_68%] select-none"
+                className="w-full h-full object-cover object-[50%_45%] select-none"
                 loading="lazy"
               />
             </div>
           </div>
 
           {/* Right Column – Four Numbered Consultation Headings */}
-          <div className="lg:col-span-7 flex flex-col justify-between pl-5 sm:pl-6 pr-1 space-y-3 sm:space-y-3.5">
+          <div className="lg:col-span-7 flex flex-col justify-between pl-5 sm:pl-6 pr-1 space-y-4 sm:space-y-5 lg:space-y-[22px]">
             {steps.map((st) => (
               <div
                 key={st.step}
-                className="group relative flex items-center pl-7 sm:pl-8 pr-4 sm:pr-5 py-3.5 sm:py-4 rounded-xl sm:rounded-2xl bg-white border border-sand/20 shadow-2xs hover:shadow-xs hover:border-sand/40 hover:-translate-y-0.5 transition-all duration-200 ease-out cursor-default"
+                className="group relative flex items-center pl-7 sm:pl-8 lg:pl-[35.2px] pr-4 sm:pr-5 lg:pr-[22px] py-4 sm:py-5 lg:py-[22px] rounded-xl sm:rounded-2xl bg-white border border-sand/20 shadow-2xs hover:shadow-xs hover:border-sand/40 hover:-translate-y-0.5 transition-all duration-200 ease-out cursor-default"
               >
                 {/* Overlapping Numbered Circular Badge */}
                 <div
-                  className={`absolute -left-3.5 sm:-left-4 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full ${st.badgeBg} flex items-center justify-center font-heading font-bold text-xs sm:text-[13px] text-white shadow-2xs select-none`}
+                  className={`absolute -left-3.5 sm:-left-4 lg:-left-[17.6px] top-1/2 -translate-y-1/2 w-8 h-8 lg:w-[35.2px] lg:h-[35.2px] rounded-full ${st.badgeBg} flex items-center justify-center font-heading font-bold text-xs sm:text-[13px] lg:text-[14.3px] text-white shadow-2xs select-none`}
                   aria-hidden="true"
                 >
                   {st.step}
                 </div>
 
                 {/* Left-Aligned Heading */}
-                <h3 className="font-heading text-sm sm:text-base font-semibold text-charcoal leading-snug">
+                <h3 className="font-heading text-sm sm:text-base lg:text-[17.6px] font-semibold text-charcoal leading-snug">
                   {st.title}
                 </h3>
               </div>
@@ -83,15 +83,15 @@ export const FirstConsultation: React.FC = () => {
         </div>
 
         {/* Patient Comfort & Informed Consent Note (Compact Reassurance Panel) */}
-        <div className="max-w-4xl mx-auto p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-[#FAF1EC]/80 border border-sand/25 flex items-start sm:items-center gap-3 sm:gap-3.5 shadow-2xs">
-          <div className="w-8 h-8 sm:w-8.5 sm:h-8.5 rounded-full bg-white border border-sand/30 flex items-center justify-center text-sand-dark shrink-0 shadow-2xs">
-            <ShieldCheck className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-sand-dark" />
+        <div className="max-w-5xl lg:max-w-[1126px] mx-auto p-3.5 sm:p-4 lg:p-[17.6px] rounded-xl sm:rounded-2xl bg-[#FAF1EC]/80 border border-sand/25 flex items-start sm:items-center gap-3 sm:gap-3.5 shadow-2xs">
+          <div className="w-8 h-8 sm:w-8.5 sm:h-8.5 lg:w-[37.4px] lg:h-[37.4px] rounded-full bg-white border border-sand/30 flex items-center justify-center text-sand-dark shrink-0 shadow-2xs">
+            <ShieldCheck className="w-4 h-4 sm:w-4.5 sm:h-4.5 lg:w-[19.8px] lg:h-[19.8px] text-sand-dark" />
           </div>
           <div className="space-y-0.5 text-left">
-            <h3 className="font-heading text-xs sm:text-sm font-semibold text-charcoal">
+            <h3 className="font-heading text-xs sm:text-sm lg:text-[15.4px] font-semibold text-charcoal">
               Your Comfort and Consent Come First
             </h3>
-            <p className="font-body text-xs sm:text-[13px] text-charcoal/80 leading-relaxed">
+            <p className="font-body text-xs sm:text-[13px] lg:text-[14.3px] text-charcoal/80 leading-relaxed">
               An internal examination is not automatic. Any examination requires your informed consent, and you can pause or decline.
             </p>
           </div>
