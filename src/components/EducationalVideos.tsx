@@ -43,14 +43,22 @@ export const educationalVideos = [
   },
 ];
 
-// These four original thumbnails contain baked-in dark duplicate side imagery.
-// Keep the complete central portrait sharp over a soft, darker fill of the same thumbnail.
-const portraitThumbnailIds = new Set(['18VRfLcGT8E', 'cIdZFcD4ViQ', 'W9taElo392U', 'euwj9YnQzUQ']);
+const localVideoCovers: Record<string, string> = {
+ '18VRfLcGT8E': '/images/services/778c833a-191e-420c-8389-1e74e8c8fd7a.png',
+ 'cIdZFcD4ViQ': '/images/services/b3715b52-c307-457a-ac75-80f400a2a903.png',
+ 'W9taElo392U': '/images/services/d72d8770-a11b-4610-87e5-c36ca0467416.png',
+ 'euwj9YnQzUQ': '/images/services/2ab5686a-7b8c-4c06-b83b-417dffb3d515.png',
+};
+// Preserve the original portrait treatment only for the unchanged Shorts thumbnail.
+const portraitThumbnailIds = new Set(['euwj9YnQzUQ']);
 
 const VideoThumbnail: React.FC<{ id: string; title: string }> = ({ id, title }) => {
   const [fallback, setFallback] = useState(0);
-  // Video 2's own first preview frame shows its presenter instead of a review screenshot.
-  const sources = id === 'cIdZFcD4ViQ' ? ['maxres1', 'hq1', 'hqdefault'] : ['maxresdefault', 'hqdefault'];
+  const localCover = localVideoCovers[id];
+  if (localCover) return fallback === 0
+    ? <img className="video-local-cover" src={localCover} width="1672" height="941" loading="lazy" decoding="async" alt={`${title} video cover`} onError={()=>setFallback(1)}/>
+    : <span className="video-thumbnail-fallback">{title}</span>;
+  const sources = ['maxresdefault', 'hqdefault'];
   const isPortrait = portraitThumbnailIds.has(id);
   const thumbnailUrl = `https://i.ytimg.com/vi/${id}/${sources[fallback]}.jpg`;
   return fallback < sources.length ? <>
