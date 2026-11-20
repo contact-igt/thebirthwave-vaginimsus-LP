@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FixedBackgroundLines } from './components/FixedBackgroundLines';
 import { Navbar } from './components/Navbar';
-import { CareProgramme, IndividualizedCare, TravellingForCare } from './components/CareProgramme';
+import { CareProgramme, IndividualizedCare } from './components/CareProgramme';
 import { WhatsAppEnquiry } from './components/WhatsAppEnquiry';
 import { Hero } from './components/Hero';
 import { Understanding } from './components/Understanding';
@@ -92,7 +92,6 @@ export const App: React.FC = () => {
             <IndividualizedCare />
             <CareTeam />
             <EducationalVideos />
-            <TravellingForCare />
             <Testimonials />
             <PrivacyMatters />
             <FAQSection />

@@ -1,6 +1,6 @@
 import React from 'react';
 import './care-programme.css';
-import { Stethoscope, CheckCircle2, MapPin } from 'lucide-react';
+import { Stethoscope, UserRound, ClipboardCheck, Flower2, Heart } from 'lucide-react';
 const heading = 'font-heading font-semibold sm:font-bold text-2xl sm:text-3xl lg:text-[36px] leading-[1.15] text-charcoal tracking-tight';
 const button = 'inline-flex items-center justify-center px-6 py-3 rounded-full bg-sand-dark hover:bg-sand-deep text-white font-heading font-medium text-sm transition-colors';
 const cards = [
@@ -36,32 +36,30 @@ export const CareProgramme: React.FC = () => <section id="treatment-programme" c
  </div>
 </section>;
 export const IndividualizedCare: React.FC = () => <section id="individualized-care" className="py-12 md:py-16 bg-sand-pale/65">
- <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 gap-6 lg:gap-8 items-center">
-  <figure><img src="/images/services/c5901659-0269-411e-8a1d-0188abb759e3.png" alt="Illustration of a physiotherapist assisting a woman on an exercise ball" width="1218" height="1291" loading="lazy" className="w-full h-auto object-contain mix-blend-darken" /></figure>
-  <div className="one-to-one-content space-y-4"><p className="text-xs font-semibold tracking-[0.12em] text-sand-dark">PERSONALIZED ONE-TO-ONE CARE</p><h2 className={heading}>Every Woman's Experience Is Different. Her Care Should Be Too.</h2>
-   <p className="text-sm sm:text-base leading-relaxed text-charcoal/80">No two experiences of vaginismus are exactly alike. At The BirthWave, pelvic floor physiotherapy is provided through individualized, one-to-one sessions rather than group physiotherapy.</p>
-   <p className="text-sm sm:text-base leading-relaxed text-charcoal/80">Your assessment and treatment approach are guided by your symptoms, physical needs, comfort and personal care goals.</p>
-   <p className="text-sm font-medium text-sand-dark border-l-2 border-sand pl-3">One-to-one care, not group physiotherapy.</p>
-   <div className="grid sm:grid-cols-2 gap-3">{[
-    ['One-to-One Sessions','Individual attention from your pelvic floor physiotherapy specialist.'],['Individualized Assessment','An assessment guided by your symptoms, concerns and comfort.'],['Personalized Treatment','Treatment approaches adapted to your individual needs.'],['Care at Your Own Pace','A supportive approach that respects your boundaries and informed consent.']
-   ].map(([title,text])=><div key={title} className="rounded-xl bg-cream/90 border border-sand/25 p-4"><h3 className="font-heading font-semibold text-sm flex gap-2 items-center"><CheckCircle2 size={17} className="text-sand-dark shrink-0" aria-hidden="true"/>{title}</h3><p className="text-sm text-muted mt-1">{text}</p></div>)}</div>
-   <p className="text-sm font-medium text-sand-dark">Your assessment is individual. Your treatment should be too.</p>
-  </div>
- </div>
-</section>;
-export const TravellingForCare: React.FC = () => <section id="beyond-chennai" className="py-14 md:py-20">
- <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-  <div className="space-y-4">
-   <p className="text-xs font-semibold tracking-[0.12em] text-sand-dark">CARE THAT BRINGS WOMEN TOGETHER</p><h2 className={heading}>Trusted Beyond Chennai</h2>
-   <p className="text-sm sm:text-base text-charcoal/80 max-w-2xl mx-auto">Women have travelled from Bengaluru, Madurai, Chidambaram and other locations to seek vaginismus care at The BirthWave in Chennai.</p>
-   <div className="care-journey" aria-label="Women travel from these locations to The BirthWave in Chennai">
-    <ul className="care-origins">{['Bengaluru','Madurai','Chidambaram','Other Locations'].map(city=><li key={city}><MapPin className="care-origin-pin" size={17} aria-hidden="true"/>{city}</li>)}</ul>
-    <svg className="care-routes" viewBox="0 0 160 240" fill="none" preserveAspectRatio="none" aria-hidden="true">
-     <path d="M0 30 C75 30 70 120 145 120 M0 90 C75 90 70 120 145 120 M0 150 C75 150 70 120 145 120 M0 210 C75 210 70 120 145 120" stroke="currentColor" strokeWidth="1.5" strokeDasharray="4 5"/><path d="M136 112 L146 120 L136 128" stroke="currentColor" strokeWidth="1.5"/>
-    </svg>
-    <div className="care-destination"><MapPin size={28} aria-hidden="true"/><span className="text-xs uppercase tracking-[0.12em]">Care destination</span><h3 className="font-heading font-semibold text-lg sm:text-xl">Chennai — The BirthWave</h3><a className={button} href="#contact">Speak With Our Care Team</a></div>
+ <div className="personal-care-layout max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
+  <header className="personal-care-heading space-y-4">
+   <p className="text-xs font-semibold tracking-[0.12em] text-sand-dark">PERSONALIZED ONE-TO-ONE CARE</p>
+   <h2 className={heading}>Every Woman's Experience Is Different. Her Care Should Be Too.</h2>
+  </header>
+  <figure className="personal-care-illustration">
+   <img src="/images/services/c5901659-0269-411e-8a1d-0188abb759e3.png" alt="Illustration of a physiotherapist assisting a woman on an exercise ball" width="1218" height="1291" loading="lazy" className="relative w-full h-auto object-contain mix-blend-darken" />
+  </figure>
+  <div className="personal-care-description space-y-5">
+   <div className="border-l-2 border-sand pl-4 space-y-4">
+    <p className="text-sm sm:text-base leading-relaxed text-charcoal/80">No two experiences of vaginismus are exactly alike. At The BirthWave, pelvic floor physiotherapy is provided through individualized, one-to-one sessions rather than group physiotherapy.</p>
+    <p className="text-sm sm:text-base leading-relaxed text-charcoal/80">Your assessment and treatment approach are guided by your symptoms, physical needs, comfort and personal care goals.</p>
    </div>
-   <p className="text-sm text-muted">Personalized care, wherever your journey begins.</p>
+   <p className="text-sm font-medium text-sand-dark">One-to-one care, not group physiotherapy.</p>
   </div>
+  <div className="personal-care-cards">{[
+   { title: 'One-to-One Sessions', text: 'Individual attention from your pelvic floor physiotherapy specialist.', icon: UserRound },
+   { title: 'Individualized Assessment', text: 'An assessment guided by your symptoms, concerns and comfort.', icon: ClipboardCheck },
+   { title: 'Personalized Treatment', text: 'Treatment approaches adapted to your individual needs.', icon: Flower2 },
+   { title: 'Care at Your Own Pace', text: 'A supportive approach that respects your boundaries and informed consent.', icon: Heart },
+  ].map(({title,text,icon: Icon})=><article key={title} className="personal-care-card rounded-2xl bg-cream/90 border border-sand/25">
+   <span className="personal-care-icon bg-sand-pale text-sand-dark rounded-xl"><Icon size={27} strokeWidth={1.6} aria-hidden="true"/></span>
+   <div><h3 className="font-heading font-semibold text-base text-charcoal">{title}</h3><p className="text-sm text-muted leading-relaxed mt-1">{text}</p></div>
+  </article>)}</div>
+  <p className="personal-care-final text-sm font-medium text-sand-dark">Your assessment is individual. Your treatment should be too.</p>
  </div>
 </section>;
