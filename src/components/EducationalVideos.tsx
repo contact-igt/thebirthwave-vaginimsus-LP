@@ -1,6 +1,5 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { ChevronLeft, ChevronRight, ExternalLink, Play, Youtube } from 'lucide-react';
-import { circularOffset } from './carouselUtils';
 import './resource-sections.css';
 
 // Original titles verified with YouTube oEmbed. Full transcripts were inaccessible.
@@ -64,102 +63,65 @@ const VideoThumbnail: React.FC<{ id: string; title: string }> = ({ id, title }) 
     </> : <span className="video-thumbnail-fallback">{title}</span>;
 };
 
+type Video = typeof educationalVideos[number];
+const VideoResourceCard: React.FC<{ video: Video; featured?: boolean }> = ({ video, featured }) => <article className={featured ? 'video-featured' : 'video-support-card'}>
+ <a className="video-thumbnail" href={video.url} target="_blank" rel="noopener noreferrer" aria-label={`Play ${video.title} on YouTube (opens in a new tab)`}>
+  <VideoThumbnail id={video.id} title={video.title}/>
+  <span className="video-play" aria-hidden="true"><Play fill="currentColor" size={24}/></span>
+ </a>
+ <div className="video-resource-info">
+  {featured && <p className="video-featured-label font-heading text-xs font-semibold uppercase tracking-[0.12em] text-sand-dark">FEATURED VIDEO</p>}
+  <h4 className={`font-heading font-semibold leading-snug ${featured ? 'text-xl sm:text-2xl' : 'text-base'}`}><a href={video.url} target="_blank" rel="noopener noreferrer">{video.title}</a></h4>
+  {video.presenter && <p className="text-sm font-medium text-sand-dark mt-2">{video.presenter}</p>}
+  {featured && <>
+   <p className="text-sm leading-relaxed text-muted mt-3">{video.description}</p>
+   <a className="video-watch" href={video.url} target="_blank" rel="noopener noreferrer"><Youtube size={19} aria-hidden="true"/>Watch on YouTube<ExternalLink size={15} aria-hidden="true"/></a>
+  </>}
+ </div>
+</article>;
 export const EducationalVideos: React.FC = () => {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [expandedId, setExpandedId] = useState<string | null>(null);
-  const touchStart = useRef<{ x: number; y: number } | null>(null);
-  const suppressClick = useRef(false);
-  const lastWheel = useRef(0);
-  const wheelDistance = useRef(0);
-  const select = (index: number) => { setActiveIndex(index); setExpandedId(null); };
-  const move = (step: number) => { setActiveIndex(index => (index + step + educationalVideos.length) % educationalVideos.length); setExpandedId(null); };
-
-  return <section id="video-resources" aria-labelledby="video-resources-heading" className="video-resources py-14 md:py-20 scroll-mt-24">
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+ const row = useRef<HTMLDivElement>(null);
+ const [canPrevious,setCanPrevious] = useState(false);
+ const [canNext,setCanNext] = useState(true);
+ useEffect(()=>{
+  const element=row.current;if(!element)return;
+  const update=()=>{setCanPrevious(element.scrollLeft>2);setCanNext(element.scrollLeft+element.clientWidth<element.scrollWidth-2);};
+  update();const observer=new ResizeObserver(update);observer.observe(element);
+  element.addEventListener('scroll',update,{passive:true});
+  return ()=>{observer.disconnect();element.removeEventListener('scroll',update);};
+ },[]);
+ const scroll=(direction:number)=>{
+  const element=row.current;if(!element)return;
+  const first=element.firstElementChild as HTMLElement|null;
+  const step=(first?.getBoundingClientRect().width||element.clientWidth)+16;
+  element.scrollBy({left:direction*step,behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});
+ };
+ return <section id="video-resources" aria-labelledby="video-resources-heading" className="video-resources py-14 md:py-20 scroll-mt-24">
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <header className="max-w-3xl mx-auto text-center mb-8 sm:mb-10">
-        <p className="font-heading font-semibold text-xs uppercase tracking-[0.12em] text-sand-dark mb-4">VAGINISMUS VIDEO RESOURCES</p>
+        <p className="video-section-eyebrow font-heading font-semibold text-xs uppercase tracking-[0.12em] text-sand-dark mb-4">VAGINISMUS VIDEO RESOURCES</p>
         <h2 id="video-resources-heading" className="font-heading font-semibold sm:font-bold text-2xl sm:text-3xl lg:text-[36px] leading-[1.15] text-charcoal tracking-tight mb-4">Understanding Vaginismus Through Expert Conversations</h2>
         <p className="font-body text-sm sm:text-base text-charcoal/80 leading-relaxed">Why does penetration feel painful? What causes vaginismus, and what care options are available? Explore our specialists' videos to better understand your symptoms and the care you may need.</p>
       </header>
-      <div className="video-panel">
-        <div className="video-panel-heading text-center">
-          <h3 className="font-heading font-semibold text-xl sm:text-2xl text-sand-deep mb-3">Your Questions, Explained by Specialists</h3>
-          <p className="text-base text-muted leading-relaxed">Explore conversations about vaginismus, painful intercourse, pelvic floor health and treatment options.</p>
-        </div>
-        <div className="video-stage" role="region" aria-roledescription="carousel" aria-label="Educational videos" tabIndex={0}
-          onKeyDown={event => {
-            if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') { event.preventDefault(); move(event.key === 'ArrowRight' ? 1 : -1); }
-          }}
-          onTouchStart={event => { const touch = event.touches[0]; touchStart.current = { x: touch.clientX, y: touch.clientY }; suppressClick.current = false; }}
-          onTouchEnd={event => {
-            if (!touchStart.current) return;
-            const dx = event.changedTouches[0].clientX - touchStart.current.x;
-            const dy = event.changedTouches[0].clientY - touchStart.current.y;
-            if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy) * 1.3) { suppressClick.current = true; move(dx < 0 ? 1 : -1); }
-            touchStart.current = null;
-          }}
-          onTouchCancel={() => { touchStart.current = null; }}
-          onWheel={event => {
-            if (Math.abs(event.deltaX) <= Math.abs(event.deltaY)) return;
-            if (Date.now() - lastWheel.current > 450) {
-              wheelDistance.current += event.deltaX;
-              if (Math.abs(wheelDistance.current) > 35) { move(wheelDistance.current > 0 ? 1 : -1); lastWheel.current = Date.now(); wheelDistance.current = 0; }
-            }
-          }}>
-          {educationalVideos.map((video, index) => {
-            const offset = circularOffset(index, activeIndex, educationalVideos.length);
-            const visible = Math.abs(offset) <= 1;
-            const active = offset === 0;
-            return <article key={video.id} className={`video-card ${active ? 'is-active' : ''} ${expandedId === video.id ? 'is-expanded' : ''}`}
-              data-visible={visible} aria-hidden={!visible} aria-label={`${index + 1} of ${educationalVideos.length}: ${video.title}`}
-              style={{ '--position': offset } as React.CSSProperties}
-              onMouseLeave={() => { if (expandedId === video.id) setExpandedId(null); }}>
-              <div className="video-card-surface" onClick={event => {
-                if ((event.target as HTMLElement).closest('a, button')) return;
-                if (suppressClick.current) { suppressClick.current = false; return; }
-                if (!active) select(index);
-                setExpandedId(expandedId === video.id ? null : video.id);
-              }}>
-                <div className="video-thumbnail">
-                  <VideoThumbnail id={video.id} title={video.title} />
-                  <a className="video-play" href={video.url} target="_blank" rel="noopener noreferrer" tabIndex={visible ? 0 : -1}
-                    aria-label={`Play ${video.title} on YouTube (opens in a new tab)`}><Play fill="currentColor" size={24} aria-hidden="true" /></a>
-                </div>
-                <div className="video-info">
-                  <h4 className="font-heading font-semibold text-base leading-snug">
-                    <button type="button" className="video-title" tabIndex={visible ? 0 : -1} aria-expanded={expandedId === video.id} aria-controls={`video-details-${video.id}`}
-                      onClick={() => {
-                        if (suppressClick.current) { suppressClick.current = false; return; }
-                        if (!active) select(index);
-                        setExpandedId(expandedId === video.id ? null : video.id);
-                      }}>{video.title}</button>
-                  </h4>
-                  <div className="video-details" id={`video-details-${video.id}`}><div>
-                    {video.presenter && <p className="text-sm font-medium text-sand-dark mt-3">{video.presenter}</p>}
-                    <p className="text-sm leading-relaxed text-muted mt-2">{video.description}</p>
-                    <a href={video.url} target="_blank" rel="noopener noreferrer" className="video-watch" tabIndex={visible ? 0 : -1}>
-                      <Youtube size={19} aria-hidden="true" /> Watch on YouTube <ExternalLink size={15} aria-hidden="true" />
-                    </a>
-                  </div></div>
-                </div>
-              </div>
-              {!active && visible && <button type="button" className="video-select" onClick={() => select(index)} aria-label={`Select ${video.title}`} />}
-            </article>;
-          })}
-          <button type="button" className="resource-arrow video-prev" aria-label="Previous video" onClick={() => move(-1)}><ChevronLeft aria-hidden="true" /></button>
-          <button type="button" className="resource-arrow video-next" aria-label="Next video" onClick={() => move(1)}><ChevronRight aria-hidden="true" /></button>
-        </div>
-      </div>
-      <div className="video-pagination" aria-label="Choose a video">
-        {educationalVideos.map((video, index) => <button key={video.id} type="button" aria-label={`Show ${video.title}`} aria-current={index === activeIndex ? 'true' : undefined} onClick={() => select(index)}><span /></button>)}
-      </div>
-      <p className="sr-only" aria-live="polite">Video {activeIndex + 1} of 6: {educationalVideos[activeIndex].title}</p>
+   <div className="text-center mb-6">
+    <h3 className="video-secondary-heading font-heading font-semibold text-xl sm:text-2xl text-sand-dark mb-3"><span className="video-secondary-play" aria-hidden="true"><Play size={17}/></span><span>Your Questions, Explained by Specialists</span></h3>
+    <p className="text-base text-muted leading-relaxed">Explore conversations about vaginismus, painful intercourse, pelvic floor health and treatment options.</p>
+   </div>
+   <VideoResourceCard video={educationalVideos[0]} featured/>
+   <div className="video-support-navigation">
+    <button type="button" className="resource-arrow" aria-label="Previous videos" aria-controls="supporting-videos" disabled={!canPrevious} onClick={()=>scroll(-1)}><ChevronLeft aria-hidden="true"/></button>
+    <div ref={row} id="supporting-videos" className="video-support-row no-scrollbar" role="region" aria-roledescription="carousel" aria-label="More educational videos" tabIndex={0}
+     onKeyDown={event=>{if(event.key==='ArrowLeft'||event.key==='ArrowRight'){event.preventDefault();scroll(event.key==='ArrowRight'?1:-1);}}}>
+     {educationalVideos.slice(1).map(video=><VideoResourceCard key={video.id} video={video}/>)}
+    </div>
+    <button type="button" className="resource-arrow" aria-label="Next videos" aria-controls="supporting-videos" disabled={!canNext} onClick={()=>scroll(1)}><ChevronRight aria-hidden="true"/></button>
+   </div>
       <div className="text-center">
         <a href="https://www.youtube.com/@thebirthwaveclinic" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-sand-dark hover:bg-sand-deep text-white font-heading font-medium text-sm transition-colors shadow-soft">
           <Youtube size={20} aria-hidden="true" /> Explore More Videos <ExternalLink size={16} aria-hidden="true" />
         </a>
         <p className="text-sm text-muted mt-4">These educational videos do not replace an individual medical assessment.</p>
       </div>
-    </div>
-  </section>;
+  </div>
+ </section>;
 };
