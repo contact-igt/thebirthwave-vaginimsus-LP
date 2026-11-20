@@ -121,3 +121,14 @@
  .video-resources .video-thumbnail:focus-visible .video-play { opacity: 1; }
 }
 @media (hover: none), (pointer: coarse) { .video-resources .video-play { opacity: 1; } }
+
+/* A single click-created player leaves all card dimensions and covers intact. */
+.video-playback-dialog { width: min(960px, calc(100% - 32px)); max-height: 90dvh; padding: 0; overflow-y: auto; border: 1px solid #E7CFC2; border-radius: 24px; background: #FFF9F6; color: #2C2523; }
+.video-playback-dialog::backdrop { background: rgb(44 37 35 / 65%); }
+.video-playback-header { position: sticky; top: 0; z-index: 1; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 16px 20px; background: #FFF9F6; }
+.video-playback-frame { display: block; border: 0; width: 100%; aspect-ratio: 16 / 9; min-height: 200px; max-height: 65dvh; }
+.video-playback-footer { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 20px; }
+.video-playback-footer .video-watch { margin-top: 0; }
+.video-playback-dialog :is(a,button):focus-visible { outline: 3px solid #8C594A; outline-offset: 3px; }
+
+.video-playback-error { display: flex; align-items: center; justify-content: center; padding: 24px; text-align: center; background: #F8EDE7; color: #5A372C; }

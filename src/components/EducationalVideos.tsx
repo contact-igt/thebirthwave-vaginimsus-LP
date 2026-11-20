@@ -1,15 +1,15 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { ChevronLeft, ChevronRight, ExternalLink, Play, Youtube } from 'lucide-react';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { ChevronLeft, ChevronRight, ExternalLink, Play, Youtube, X } from 'lucide-react';
 import './resource-sections.css';
 
 // Original titles verified with YouTube oEmbed. Full transcripts were inaccessible.
 // Descriptions intentionally cover only topics supported by those titles.
 export const educationalVideos = [
   {
-    id: 'Jl7r4gMAxiU', title: 'Understanding Vaginismus and the Pelvic Floor', presenter: 'Dr. Adithi N (PT)',
-    originalTitle: 'Understanding Vaginismus | Dr. Adithi N (PT)',
-    description: 'An introduction to vaginismus from a physiotherapy perspective.',
-    url: 'https://www.youtube.com/watch?v=Jl7r4gMAxiU',
+    id: '18VRfLcGT8E', title: 'What Is Vaginismus?', presenter: 'Dr. Santoshi Nandigam',
+    originalTitle: 'What Is Vaginismus? The Pain No One Talks About 💬',
+    description: 'An introduction to vaginismus and the pain associated with it.',
+    url: 'https://www.youtube.com/watch?v=18VRfLcGT8E',
   },
   {
     id: 'cIdZFcD4ViQ', title: 'Understanding Vaginismus and Recovery', presenter: 'Dr. Santoshi Nandigam',
@@ -24,10 +24,10 @@ export const educationalVideos = [
     url: 'https://www.youtube.com/watch?v=W9taElo392U',
   },
   {
-    id: '18VRfLcGT8E', title: 'What Is Vaginismus?', presenter: 'Dr. Santoshi Nandigam',
-    originalTitle: 'What Is Vaginismus? The Pain No One Talks About 💬',
-    description: 'An introduction to vaginismus and the pain associated with it.',
-    url: 'https://www.youtube.com/watch?v=18VRfLcGT8E',
+    id: 'Jl7r4gMAxiU', title: 'Understanding Vaginismus and the Pelvic Floor', presenter: 'Dr. Adithi N (PT)',
+    originalTitle: 'Understanding Vaginismus | Dr. Adithi N (PT)',
+    description: 'An introduction to vaginismus from a physiotherapy perspective.',
+    url: 'https://www.youtube.com/watch?v=Jl7r4gMAxiU',
   },
   {
     id: 'P29TlC9lDz0', title: 'Pain During Intimacy and Vaginismus Care', presenter: 'Dr. Aditi (PT)',
@@ -72,22 +72,109 @@ const VideoThumbnail: React.FC<{ id: string; title: string }> = ({ id, title }) 
 };
 
 type Video = typeof educationalVideos[number];
-const VideoResourceCard: React.FC<{ video: Video; featured?: boolean }> = ({ video, featured }) => <article className={featured ? 'video-featured' : 'video-support-card'}>
- <a className="video-thumbnail" href={video.url} target="_blank" rel="noopener noreferrer" aria-label={`Play ${video.title} on YouTube (opens in a new tab)`}>
+// Request playback only when a visitor follows a link. YouTube/browser policies
+// ultimately decide whether unmuted playback may start in the destination tab.
+const getVideoPlaybackUrl = (sourceUrl: string): string => {
+ const url = new URL(sourceUrl);
+ url.searchParams.set('autoplay', '1');
+ return url.toString();
+};
+interface YouTubePlayer { playVideo(): void; destroy(): void; }
+interface YouTubePlayerEvent { target: YouTubePlayer; data?: number; }
+interface YouTubeApi {
+ Player: new (element: HTMLIFrameElement, options: { events: {
+  onReady: (event: YouTubePlayerEvent) => void;
+  onStateChange: (event: YouTubePlayerEvent) => void;
+  onError: () => void;
+  onAutoplayBlocked: () => void;
+ } }) => YouTubePlayer;
+}
+let playerApiPromise: Promise<YouTubeApi> | undefined;
+const loadPlayerApi = (): Promise<YouTubeApi> => {
+ const host=window as Window & { YT?: YouTubeApi; onYouTubeIframeAPIReady?: () => void };
+ if(host.YT?.Player)return Promise.resolve(host.YT);
+ if(!playerApiPromise)playerApiPromise=new Promise<YouTubeApi>((resolve,reject)=>{
+  const previous=host.onYouTubeIframeAPIReady;
+  host.onYouTubeIframeAPIReady=()=>{previous?.();if(host.YT?.Player)resolve(host.YT);};
+  const script=document.createElement('script');script.src='https://www.youtube.com/iframe_api';script.async=true;
+  script.onerror=()=>{script.remove();playerApiPromise=undefined;reject(new Error('YouTube player API unavailable'));};
+  document.head.appendChild(script);
+ });
+ return playerApiPromise;
+};
+const VideoPlaybackDialog: React.FC<{ video: Video; onDismiss: () => void }> = ({ video, onDismiss }) => {
+ const dialog = useRef<HTMLDialogElement>(null);
+ const frame = useRef<HTMLIFrameElement>(null);
+ const [status,setStatus] = useState<'loading'|'ready'|'playing'|'blocked'|'error'>('loading');
+ useEffect(()=>{
+  let alive=true,failed=false;
+  let player:YouTubePlayer|undefined;
+  let watchdog:number;
+  const fail=()=>{if(!alive||failed)return;failed=true;clearTimeout(watchdog);setStatus('error');};
+  const watch=()=>{clearTimeout(watchdog);watchdog=window.setTimeout(fail,20000);};
+  watch();
+  loadPlayerApi().then(api=>{
+   if(!alive||failed||!frame.current)return;
+   player=new api.Player(frame.current,{events:{
+    onReady:event=>{if(!alive||failed)return;setStatus('ready');event.target.playVideo();},
+    onStateChange:event=>{
+     if(!alive||failed)return;
+     if(event.data===1||event.data===2||event.data===0){clearTimeout(watchdog);setStatus(event.data===1?'playing':'ready');}
+     else if(event.data===3)watch();
+    },
+    onError:fail,
+    onAutoplayBlocked:()=>{if(!alive||failed)return;clearTimeout(watchdog);setStatus('blocked');},
+   }});
+  }).catch(fail);
+  return ()=>{alive=false;clearTimeout(watchdog);player?.destroy();};
+ },[]);
+ useLayoutEffect(() => {
+  const element=dialog.current;if(!element)return;
+  const previousFocus=document.activeElement as HTMLElement|null;
+  const previousOverflow=document.body.style.overflow;
+  element.showModal();document.body.style.overflow='hidden';
+  return ()=>{element.close();document.body.style.overflow=previousOverflow;previousFocus?.focus({preventScroll:true});};
+ },[]);
+ const embedUrl=new URL(`https://www.youtube.com/embed/${video.id}`);
+ embedUrl.searchParams.set('autoplay','1');
+ embedUrl.searchParams.set('playsinline','1');
+ embedUrl.searchParams.set('rel','0');
+ embedUrl.searchParams.set('enablejsapi','1');
+ embedUrl.searchParams.set('origin',window.location.origin);
+ return <dialog ref={dialog} className="video-playback-dialog" aria-labelledby="video-playback-heading" onCancel={event=>{event.preventDefault();onDismiss();}}>
+  <div className="video-playback-header">
+   <h3 id="video-playback-heading" className="font-heading font-semibold text-lg text-sand-deep">{video.title}</h3>
+   <button type="button" autoFocus className="resource-arrow" onClick={onDismiss} aria-label="Close video"><X aria-hidden="true"/></button>
+  </div>
+  {status==='error'
+   ? <div className="video-playback-frame video-playback-error" role="status">This video cannot play here. Use Watch on YouTube below.</div>
+   : <iframe ref={frame} key={video.id} className="video-playback-frame" src={embedUrl.toString()} title={video.title}
+      allow="autoplay; encrypted-media; fullscreen; picture-in-picture" allowFullScreen referrerPolicy="strict-origin-when-cross-origin" />}
+  {status==='blocked' && <p className="text-sm text-muted px-5 pt-3" role="status">Your browser requires a tap on the player, or you can watch directly on YouTube.</p>}
+  <div className="video-playback-footer">
+   <p className="text-sm text-muted">If playback is restricted, watch the video directly on YouTube.</p>
+   <a className="video-watch" href={getVideoPlaybackUrl(video.url)} onClick={onDismiss} target="_blank" rel="noopener noreferrer"><Youtube size={19} aria-hidden="true"/>Watch on YouTube<ExternalLink size={15} aria-hidden="true"/></a>
+  </div>
+ </dialog>;
+};
+const VideoResourceCard: React.FC<{ video: Video; featured?: boolean; onPlay: (video: Video) => void }> = ({ video, featured, onPlay }) => <article className={featured ? 'video-featured' : 'video-support-card'}>
+ <a className="video-thumbnail" href={getVideoPlaybackUrl(video.url)} target="_blank" rel="noopener noreferrer" aria-label={`Play ${video.title}`} aria-haspopup="dialog"
+  onClick={event=>{if(event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;event.preventDefault();onPlay(video);}}>
   <VideoThumbnail id={video.id} title={video.title}/>
   <span className="video-play" aria-hidden="true"><Play fill="currentColor" size={24}/></span>
  </a>
  <div className="video-resource-info">
   {featured && <p className="video-featured-label font-heading text-xs font-semibold uppercase tracking-[0.12em] text-sand-dark">FEATURED VIDEO</p>}
-  <h4 className={`font-heading font-semibold leading-snug ${featured ? 'text-xl sm:text-2xl' : 'text-base'}`}><a href={video.url} target="_blank" rel="noopener noreferrer">{video.title}</a></h4>
+  <h4 className={`font-heading font-semibold leading-snug ${featured ? 'text-xl sm:text-2xl' : 'text-base'}`}><a href={getVideoPlaybackUrl(video.url)} target="_blank" rel="noopener noreferrer">{video.title}</a></h4>
   {video.presenter && <p className="text-sm font-medium text-sand-dark mt-2">{video.presenter}</p>}
   {featured && <>
    <p className="text-sm leading-relaxed text-muted mt-3">{video.description}</p>
-   <a className="video-watch" href={video.url} target="_blank" rel="noopener noreferrer"><Youtube size={19} aria-hidden="true"/>Watch on YouTube<ExternalLink size={15} aria-hidden="true"/></a>
+   <a className="video-watch" href={getVideoPlaybackUrl(video.url)} target="_blank" rel="noopener noreferrer"><Youtube size={19} aria-hidden="true"/>Watch on YouTube<ExternalLink size={15} aria-hidden="true"/></a>
   </>}
  </div>
 </article>;
 export const EducationalVideos: React.FC = () => {
+ const [activeVideo,setActiveVideo] = useState<Video|null>(null);
  const row = useRef<HTMLDivElement>(null);
  const [canPrevious,setCanPrevious] = useState(false);
  const [canNext,setCanNext] = useState(true);
@@ -115,12 +202,12 @@ export const EducationalVideos: React.FC = () => {
     <h3 className="video-secondary-heading font-heading font-semibold text-xl sm:text-2xl text-sand-dark mb-3"><span className="video-secondary-play" aria-hidden="true"><Play size={17}/></span><span>Your Questions, Explained by Specialists</span></h3>
     <p className="text-base text-muted leading-relaxed">Explore conversations about vaginismus, painful intercourse, pelvic floor health and treatment options.</p>
    </div>
-   <VideoResourceCard video={educationalVideos[0]} featured/>
+   <VideoResourceCard video={educationalVideos[0]} featured onPlay={setActiveVideo}/>
    <div className="video-support-navigation">
     <button type="button" className="resource-arrow" aria-label="Previous videos" aria-controls="supporting-videos" disabled={!canPrevious} onClick={()=>scroll(-1)}><ChevronLeft aria-hidden="true"/></button>
     <div ref={row} id="supporting-videos" className="video-support-row no-scrollbar" role="region" aria-roledescription="carousel" aria-label="More educational videos" tabIndex={0}
      onKeyDown={event=>{if(event.key==='ArrowLeft'||event.key==='ArrowRight'){event.preventDefault();scroll(event.key==='ArrowRight'?1:-1);}}}>
-     {educationalVideos.slice(1).map(video=><VideoResourceCard key={video.id} video={video}/>)}
+     {educationalVideos.slice(1).map(video=><VideoResourceCard key={video.id} video={video} onPlay={setActiveVideo}/>)}
     </div>
     <button type="button" className="resource-arrow" aria-label="Next videos" aria-controls="supporting-videos" disabled={!canNext} onClick={()=>scroll(1)}><ChevronRight aria-hidden="true"/></button>
    </div>
@@ -131,5 +218,6 @@ export const EducationalVideos: React.FC = () => {
         <p className="text-sm text-muted mt-4">These educational videos do not replace an individual medical assessment.</p>
       </div>
   </div>
+  {activeVideo && <VideoPlaybackDialog key={activeVideo.id} video={activeVideo} onDismiss={()=>setActiveVideo(null)}/>}
  </section>;
 };
