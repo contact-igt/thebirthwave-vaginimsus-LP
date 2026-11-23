@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { ChevronDown, MessageCircle } from 'lucide-react';
 
-interface FAQItem {
+type Faq = {
   q: string;
   a: React.ReactNode;
-}
+};
 
 export const FAQSection: React.FC = () => {
   // Pinned index keeps track of an answer explicitly opened via click/tap
@@ -13,10 +13,10 @@ export const FAQSection: React.FC = () => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   // Suppressed index prevents instant re-hover if a user clicks an open item to close it
   const [suppressedHoverIndex, setSuppressedHoverIndex] = useState<number | null>(null);
-  // Toggle between showing initial questions or all 11 questions
+  // Toggle between showing first 4 questions or all 11 questions
   const [showAll, setShowAll] = useState(false);
 
-  const faqs: FAQItem[] = [
+  const previousFaqs = [
     {
       q: 'What is vaginismus?',
       a: 'Vaginismus involves involuntary tightening of muscles around the vaginal opening, making penetration difficult or painful for some people.',
@@ -80,7 +80,95 @@ export const FAQSection: React.FC = () => {
     {"q": "Is support available during the treatment programme?", "a": "The BirthWave offers access to a WhatsApp support group as an additional source of connection during the care journey. Speak with the care team to understand how the group works and whether you would like to participate."},
   ];
 
-  const visibleFaqs = showAll ? faqs : faqs.slice(0, 5);
+  const faqs: Faq[] = [
+    {
+      q: 'What is vaginismus?',
+      a: 'Vaginismus involves involuntary tightening of muscles around the vaginal opening, making penetration difficult or painful for some people.',
+    },
+    {
+      q: 'Does pain during intercourse always mean vaginismus?',
+      a: 'No. Pain can have several causes, including other pelvic or gynaecological conditions. Assessment helps identify possible contributing factors.',
+    },
+    {
+      q: 'Do I need to complete the self-assessment before booking?',
+      a: 'No. The questionnaire is optional. You can request a consultation directly.',
+    },
+    {
+      q: 'Will I need an internal examination during my first appointment?',
+      a: 'Not necessarily. Your clinician will discuss whether an examination would be useful. Any intimate examination requires informed consent, and you can decline or stop it.',
+    },
+    {
+      q: 'Can I have my first consultation online?',
+      a: 'Yes, an initial online consultation is planned through Google Meet. Some concerns may need an in-person examination or further assessment.',
+    },
+    {
+      q: 'Who will conduct my first consultation?',
+      a: (
+        <>
+          Your first consultation will be conducted by{' '}
+          <strong>Dr. Santoshi Nandigam, Obstetrician &amp; Gynaecologist and Founder of The BirthWave</strong>.
+          <br />
+          <br />
+          She will listen to your concerns, understand your symptoms and discuss the most appropriate next steps. Based on your individual needs, she may recommend further support from our pelvic-floor physiotherapist and other specialists within the care team.
+        </>
+      ),
+    },
+    {
+      q: 'Will I need all four therapies?',
+      a: (
+        <>
+          At The BirthWave, we believe that a coordinated approach can offer more comprehensive support than pursuing individual therapies separately.
+          <br />
+          <br />
+          Our integrated vaginismus care programme brings together <strong>gynaecology, pelvic-floor physiotherapy, psychological counselling and yoga</strong> to address different aspects of your well-being.
+          <br />
+          <br />
+          We highly recommend considering the programme as a whole, as the four areas of care are designed to complement one another. However, your treatment plan will be discussed with you and tailored to your individual needs.
+        </>
+      ),
+    },
+    {
+      q: 'How long does the treatment programme take?',
+      a: (
+        <>
+          Our integrated vaginismus care programme is designed to last <strong>3 months</strong>, allowing time for gradual progress and personalised support.
+          <br />
+          <br />
+          If additional time is needed, the programme can be extended to <strong>4 months, with the fourth month&apos;s services provided at no additional cost</strong>.
+          <br />
+          <br />
+          For patients with more severe or complex symptoms who may require further support, your practitioner will discuss the additional time needed and explain the recommended next steps.
+          <br />
+          <br />
+          Every patient&apos;s progress is different, and your care team will guide you throughout the programme.
+        </>
+      ),
+    },
+    {
+      q: 'Do I need to bring my husband or partner?',
+      a: 'Not at all. You are welcome to attend your consultation individually or with your husband or partner, whichever makes you feel most comfortable.',
+    },
+    {
+      q: 'Can vaginismus affect pregnancy or childbirth?',
+      a: (
+        <>
+          Having vaginismus does not automatically prevent you from becoming pregnant or having a vaginal delivery.
+          <br />
+          <br />
+          Many women with vaginismus can conceive, and pregnancy and childbirth outcomes depend on individual circumstances. With appropriate care and support, difficulties related to penetration and pelvic-floor discomfort may be addressed.
+          <br />
+          <br />
+          Our care team can guide you through your concerns about intimacy, pregnancy and childbirth based on your individual needs.
+        </>
+      ),
+    },
+    {
+      q: 'How private is my consultation?',
+      a: 'Your medical information is handled confidentially under applicable professional and legal requirements. You may request a discreet method of contact and ask the clinic about its privacy procedures.',
+    },
+  ];
+
+  const visibleFaqs = showAll ? faqs : faqs.slice(0, 4);
 
   const activeHoverIndex =
     hoveredIndex !== null && suppressedHoverIndex !== hoveredIndex

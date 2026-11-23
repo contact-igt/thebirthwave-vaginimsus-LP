@@ -15,9 +15,9 @@ export const WhatsAppEnquiry: React.FC = () => {
    const scrollingDown=currentScrollY>previousScrollY;
    previousScrollY=currentScrollY;
    if(shown||!scrollingDown||currentScrollY<40||document.visibilityState!=='visible')return;
-   if(document.activeElement?.closest('form,#assessment,#video-resources,input,textarea,select,[role=dialog]'))return;
+   if(document.activeElement?.closest('form,#assessment,#video-resources,#social-video-carousel,input,textarea,select,[role=dialog]'))return;
    if(Array.from(document.querySelectorAll<HTMLInputElement>('form input:not([type=checkbox]):not([type=radio]):not([type=hidden]),form textarea')).some(input=>input.value.trim()))return;
-   const protectedArea=Array.from(document.querySelectorAll('#assessment,#video-resources')).some(element=>{
+   const protectedArea=Array.from(document.querySelectorAll('#assessment,#video-resources,#social-video-carousel')).some(element=>{
     const box=element.getBoundingClientRect();return box.top<innerHeight&&box.bottom>0;
    });
    if(protectedArea)return;
