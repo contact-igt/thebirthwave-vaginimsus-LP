@@ -47,6 +47,7 @@
   .stories-trust-row { margin-inline: 0; }
   .stories-links { order: 1; }
   .stories-display { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .story-navigation { order: 1; }
   .story-quote-heading { flex-wrap: wrap; }
 }
 @media (max-width: 767px) {
