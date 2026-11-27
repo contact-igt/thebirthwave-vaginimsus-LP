@@ -4,11 +4,11 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 const photos = [
   { file: 'workshop-partner.webp', alt: 'A hands-on partner support demonstration during a childbirth workshop' },
   { file: 'yoga-stretch.jpg', alt: 'Prenatal yoga participants practicing a standing side stretch together' },
-  { file: 'workshop-educator.webp', alt: 'Dr. Santoshi Nandigam speaking to expectant parents about comfort during labour' },
-  { file: 'yoga-seated.jpg', alt: 'An instructor demonstrating an arm movement to a seated group' },
-  { file: 'workshop-movement.webp', alt: 'A childbirth workshop session about balance and movement during labour' },
+  { file: 'workshop-wide-discussion.jpg', alt: 'A facilitator leads a group discussion with workshop attendees seated in a semicircle' },
+  { file: 'yoga-seated.jpg', alt: 'A facilitator speaks to seated workshop attendees' },
+  { file: 'workshop-wide-teaching.jpg', alt: 'Two facilitators teach a group from the front of the workshop room' },
   { file: 'yoga-movement.jpg', alt: 'Participants following an instructor during standing movement practice' },
-  { file: 'workshop-questions.webp', alt: 'Dr. Santoshi Nandigam answering questions from workshop attendees' },
+  { file: 'workshop-group-learning.jpg', alt: 'Workshop attendees sit together and listen during a group session' },
   { file: 'pelvic-health-demonstration.webp', alt: 'An instructor guides a participant in a supported movement using an exercise ball' },
 ];
 
@@ -66,9 +66,9 @@ export const BirthwaveGallery: React.FC = () => {
           </h2>
         </div>
         <p className="max-w-md text-sm leading-relaxed text-muted sm:text-base">
+          A look inside our workshops.<br />
           Guided movement.<br />
-          Pelvic health education.<br />
-          Supportive vaginismus care.
+          Learning together.
         </p>
       </div>
 
