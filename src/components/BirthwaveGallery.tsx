@@ -9,7 +9,7 @@ const photos = [
   { file: 'workshop-movement.webp', alt: 'A childbirth workshop session about balance and movement during labour' },
   { file: 'yoga-movement.jpg', alt: 'Participants following an instructor during standing movement practice' },
   { file: 'workshop-questions.webp', alt: 'Dr. Santoshi Nandigam answering questions from workshop attendees' },
-  { file: 'yoga-circle.jpg', alt: 'A facilitator leading a session with participants seated in a circle' },
+  { file: 'pelvic-health-demonstration.webp', alt: 'An instructor guides a participant in a supported movement using an exercise ball' },
 ];
 
 function scrollGallery(rail: HTMLDivElement, direction: number) {
@@ -66,7 +66,9 @@ export const BirthwaveGallery: React.FC = () => {
           </h2>
         </div>
         <p className="max-w-md text-sm leading-relaxed text-muted sm:text-base">
-          A look at guided movement and group learning from our childbirth workshops and prenatal yoga classes.
+          Guided movement.<br />
+          Pelvic health education.<br />
+          Supportive vaginismus care.
         </p>
       </div>
 
