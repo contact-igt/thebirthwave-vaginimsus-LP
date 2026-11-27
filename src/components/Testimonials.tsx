@@ -165,6 +165,10 @@ export const Testimonials: React.FC = () => {
             </div>
           </div>
           <div className="stories-display" aria-live="polite">
+            <div className="story-navigation">
+              <button type="button" className="resource-arrow" aria-label="Previous review" onClick={() => move(-1)}><ChevronLeft aria-hidden="true" /></button>
+              <button type="button" className="resource-arrow" aria-label="Next review" onClick={() => move(1)}><ChevronRight aria-hidden="true" /></button>
+            </div>
             {[0, 1, 2].map(offset => {
               const review = testimonials[(activeIndex + offset) % testimonials.length];
               return (
@@ -186,10 +190,6 @@ export const Testimonials: React.FC = () => {
                 </article>
               );
             })}
-            <div className="story-navigation">
-              <button type="button" className="resource-arrow" aria-label="Previous review" onClick={() => move(-1)}><ChevronLeft aria-hidden="true" /></button>
-              <button type="button" className="resource-arrow" aria-label="Next review" onClick={() => move(1)}><ChevronRight aria-hidden="true" /></button>
-            </div>
           </div>
         </div>
         </div>
