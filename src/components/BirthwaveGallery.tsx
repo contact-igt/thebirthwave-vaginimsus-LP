@@ -1,32 +1,60 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 const photos = [
-  { file: 'workshop-partner.webp', alt: 'A hands-on partner support demonstration during a childbirth workshop', source: 'Childbirth workshop' },
-  { file: 'yoga-stretch.jpg', alt: 'Prenatal yoga participants practicing a standing side stretch together', source: 'Prenatal yoga' },
-  { file: 'workshop-educator.webp', alt: 'Dr. Santoshi Nandigam speaking to expectant parents about comfort during labour', source: 'Childbirth workshop' },
-  { file: 'yoga-seated.jpg', alt: 'An instructor demonstrating an arm movement to a seated group', source: 'Prenatal yoga' },
-  { file: 'workshop-movement.webp', alt: 'A childbirth workshop session about balance and movement during labour', source: 'Childbirth workshop' },
-  { file: 'yoga-movement.jpg', alt: 'Participants following an instructor during standing movement practice', source: 'Prenatal yoga' },
-  { file: 'workshop-questions.webp', alt: 'Dr. Santoshi Nandigam answering questions from workshop attendees', source: 'Childbirth workshop' },
-  { file: 'yoga-circle.jpg', alt: 'A facilitator leading a session with participants seated in a circle', source: 'Prenatal yoga' },
+  { file: 'workshop-partner.webp', alt: 'A hands-on partner support demonstration during a childbirth workshop' },
+  { file: 'yoga-stretch.jpg', alt: 'Prenatal yoga participants practicing a standing side stretch together' },
+  { file: 'workshop-educator.webp', alt: 'Dr. Santoshi Nandigam speaking to expectant parents about comfort during labour' },
+  { file: 'yoga-seated.jpg', alt: 'An instructor demonstrating an arm movement to a seated group' },
+  { file: 'workshop-movement.webp', alt: 'A childbirth workshop session about balance and movement during labour' },
+  { file: 'yoga-movement.jpg', alt: 'Participants following an instructor during standing movement practice' },
+  { file: 'workshop-questions.webp', alt: 'Dr. Santoshi Nandigam answering questions from workshop attendees' },
+  { file: 'yoga-circle.jpg', alt: 'A facilitator leading a session with participants seated in a circle' },
 ];
+
+function scrollGallery(rail: HTMLDivElement, direction: number) {
+  const first = rail.firstElementChild;
+  const second = first?.nextElementSibling;
+  if (!first || !second) return;
+
+  const step = second.getBoundingClientRect().left - first.getBoundingClientRect().left;
+  const end = rail.scrollWidth - rail.clientWidth;
+  let next = rail.scrollLeft + direction * step;
+  if (direction > 0 && rail.scrollLeft >= end - 1) next = 0;
+  if (direction < 0 && rail.scrollLeft <= 1) next = end;
+
+  rail.scrollTo({
+    left: Math.max(0, Math.min(end, next)),
+    behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth',
+  });
+}
 
 export const BirthwaveGallery: React.FC = () => {
   const railRef = useRef<HTMLDivElement>(null);
+  const lastScroll = useRef(0);
 
-  const scrollGallery = (direction: number) => {
+  useEffect(() => {
     const rail = railRef.current;
-    const first = rail?.firstElementChild;
-    const second = first?.nextElementSibling;
-    if (!rail || !first || !second) return;
+    if (!rail || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-    const step = second.getBoundingClientRect().left - first.getBoundingClientRect().left;
-    rail.scrollBy({
-      left: direction * step,
-      behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth',
+    let visible = false;
+    const observer = new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting;
     });
-  };
+    observer.observe(rail);
+
+    const timer = window.setInterval(() => {
+      if (!visible || document.hidden || rail.matches(':active, :focus-within') || performance.now() - lastScroll.current < 3000) return;
+      if (window.matchMedia('(hover: hover)').matches && rail.matches(':hover')) return;
+
+      scrollGallery(rail, 1);
+    }, 4500);
+
+    return () => {
+      observer.disconnect();
+      window.clearInterval(timer);
+    };
+  }, []);
 
   return (
     <section id="gallery" aria-labelledby="gallery-title" className="bg-cream py-12 sm:py-16 lg:py-20">
@@ -48,10 +76,11 @@ export const BirthwaveGallery: React.FC = () => {
         role="region"
         aria-label="Childbirth workshop and prenatal yoga photos"
         tabIndex={0}
-        className="flex snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain px-4 pb-2 scroll-px-4 focus-visible:outline focus-visible:-outline-offset-2 focus-visible:outline-sand-dark sm:gap-6 sm:px-6 sm:scroll-px-6 lg:px-8 lg:scroll-px-8"
+        onScroll={() => { lastScroll.current = performance.now(); }}
+        className="mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden focus-visible:outline focus-visible:-outline-offset-2 focus-visible:outline-sand-dark sm:mx-6 sm:gap-6 lg:mx-8"
       >
-        {photos.map(({ file, alt, source }) => (
-          <figure key={file} className="w-[82vw] max-w-[560px] shrink-0 snap-start sm:w-[44vw] lg:w-[31vw]">
+        {photos.map(({ file, alt }) => (
+          <figure key={file} className="w-[82%] shrink-0 snap-start sm:w-[calc((100%_-_1.5rem)/2)] lg:w-[calc((100%_-_3rem)/3)]">
             <img
               src={`/images/gallery/${file}`}
               alt={alt}
@@ -59,16 +88,15 @@ export const BirthwaveGallery: React.FC = () => {
               decoding="async"
               className="aspect-[4/3] w-full rounded-lg border border-border-soft bg-sand-pale object-cover"
             />
-            <figcaption className="mt-2 text-xs font-medium text-muted sm:text-sm">{source}</figcaption>
           </figure>
         ))}
       </div>
 
       <div className="mx-auto mt-3 flex max-w-7xl justify-end gap-2 px-4 sm:px-6 lg:px-8">
-        <button type="button" aria-label="Previous photo" aria-controls="birthwave-gallery-photos" onClick={() => scrollGallery(-1)} className="grid h-11 w-11 place-items-center rounded-full border border-border-soft bg-white text-sand-dark hover:bg-sand-pale">
+        <button type="button" aria-label="Previous photo" aria-controls="birthwave-gallery-photos" onClick={() => railRef.current && scrollGallery(railRef.current, -1)} className="grid h-11 w-11 place-items-center rounded-full border border-border-soft bg-white text-sand-dark hover:bg-sand-pale">
           <ChevronLeft size={20} aria-hidden="true" />
         </button>
-        <button type="button" aria-label="Next photo" aria-controls="birthwave-gallery-photos" onClick={() => scrollGallery(1)} className="grid h-11 w-11 place-items-center rounded-full border border-border-soft bg-white text-sand-dark hover:bg-sand-pale">
+        <button type="button" aria-label="Next photo" aria-controls="birthwave-gallery-photos" onClick={() => railRef.current && scrollGallery(railRef.current, 1)} className="grid h-11 w-11 place-items-center rounded-full border border-border-soft bg-white text-sand-dark hover:bg-sand-pale">
           <ChevronRight size={20} aria-hidden="true" />
         </button>
       </div>
