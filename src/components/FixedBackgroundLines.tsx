@@ -1,32 +1,19 @@
 import React from 'react';
 
-/**
- * Continuous fixed background silhouette accurately derived from the reference image:
- * A refined, elegant silhouette of a woman's side profile with flowing, layered paper-cut fabric curves,
- * recoloured to the official Birthwave brand palette (Rose Sand #CA9585, Sand Dark #8C594A, Light Sand #E8D4C2).
- *
- * Requirements:
- * - Lower flowing fabric portion extended downward to cover the bottom gap of the hero section.
- * - Shifted slightly to the right to reduce unused space between the illustration and the right viewport edge.
- * - Does not interfere with the floating social media buttons (z-0 vs z-40).
- * - Fixed position across the entire landing page viewport (remains stationary during scroll).
- * - Preserves subtle, faded appearance and clear left-side reading space.
- * - Responsive across desktop, tablet, and mobile with zero horizontal overflow.
- */
+const artworkEdgeFade = '[mask-image:linear-gradient(to_bottom,transparent,black_8%,black_94%,transparent)]';
+
 export const FixedBackgroundLines: React.FC = () => {
   return (
     <div
       className="fixed inset-0 pointer-events-none select-none overflow-hidden z-0"
       aria-hidden="true"
     >
-      <div className="absolute -right-14 sm:-right-18 md:-right-24 lg:-right-36 xl:-right-28 top-1/2 -translate-y-[45%] h-[70vh] sm:h-[84vh] lg:h-[94vh] xl:h-[96vh] max-h-[850px] w-[72vw] sm:w-[54vw] lg:w-[44vw] max-w-[700px] flex items-center justify-end">
-        <img
-          src="/images/background/birthwave-silhouette.png"
-          alt=""
-          className="h-full w-auto object-contain object-right opacity-22 sm:opacity-28 lg:opacity-35 select-none pointer-events-none"
-          loading="eager"
-        />
-      </div>
+      <img
+        src="/images/background/birthwave-silhouette.png"
+        alt=""
+        className={`absolute bottom-0 right-0 h-auto w-[min(64vw,43vh)] translate-x-[15%] opacity-[0.16] blur-[1.5px] sm:w-[min(54vw,70vh,700px)] sm:translate-x-0 sm:opacity-[0.28] sm:blur-none lg:w-[min(38vw,76vh,700px)] lg:translate-x-[22%] lg:opacity-[0.35] ${artworkEdgeFade}`}
+        loading="eager"
+      />
     </div>
   );
 };

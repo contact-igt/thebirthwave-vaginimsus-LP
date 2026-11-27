@@ -7,42 +7,42 @@ export const RecognisingExperiences: React.FC = () => {
       alt: '3D clay illustration of female reproductive system with gentle coral discomfort highlight',
       title: 'Pain, Burning or Stinging',
       description:
-        'Pain or burning around the vaginal opening during penetration, tampon use or examinations.',
+        'Discomfort around the vaginal opening during attempted penetration, tampon insertion or examinations.',
     },
     {
       image: '/images/experiences/transparent/feeling-blocked.png',
       alt: '3D clay illustration of gently tightened pelvic-floor muscle sling suggesting involuntary tightening',
-      title: 'A Feeling of Being Blocked',
+      title: 'A Feeling of Tightness or Blockage',
       description:
-        'Penetration may feel difficult, as though something is preventing it.',
+        'Penetration may feel difficult or impossible, as though the muscles are closing or resisting.',
     },
     {
       image: '/images/experiences/transparent/examination-discomfort.png',
       alt: '3D clay illustration of an empathetic doctor and patient discussing an examination in an unhurried consultation',
-      title: 'Discomfort During Examinations',
+      title: 'Difficulty With Vaginal Examinations',
       description:
-        'Vaginal examinations or procedures may feel painful or difficult.',
+        'Internal examinations may feel uncomfortable, frightening or difficult to tolerate.',
     },
     {
       image: '/images/experiences/transparent/worry-anxiety.png',
       alt: '3D clay illustration of a thoughtful human profile with gentle thought swirl and heart representing emotional concern',
-      title: 'Worry Before Intimacy',
+      title: 'Worry Before Penetration',
       description:
-        'Past discomfort may cause worry before penetration or physical contact.',
+        'Previous discomfort or uncertainty may lead to anxiety before intimacy or an examination.',
     },
     {
       image: '/images/experiences/transparent/avoiding-intimacy.png',
       alt: '3D clay illustration of two people sitting slightly apart communicating hesitation and emotional distance',
-      title: 'Avoiding Physical Intimacy',
+      title: 'Avoiding Certain Activities',
       description:
-        'You may avoid intimacy because of concerns about pain or discomfort.',
+        'You may avoid penetration or particular intimate activities because of expected discomfort.',
     },
     {
       image: '/images/experiences/transparent/unsure-symptoms.png',
       alt: '3D clay illustration of a thoughtful woman with a question mark communicating uncertainty and seeking understanding',
-      title: 'Unsure About Your Symptoms?',
+      title: 'Unsure What Your Symptoms Mean?',
       description:
-        'A healthcare professional can help you understand and discuss your concerns.',
+        'Similar experiences can occur for different reasons. An individual assessment can help clarify possible causes.',
     },
   ];
 
@@ -61,7 +61,7 @@ export const RecognisingExperiences: React.FC = () => {
             What Can Vaginismus Feel Like?
           </h2>
           <p className="text-sm sm:text-base text-charcoal/80 leading-relaxed font-body font-normal">
-            Vaginismus can cause pain, muscle tightening or difficulty with penetration and intimate examinations. Experiences vary from person to person.
+            Experiences vary from person to person. Some people experience pain, others notice involuntary tightening or difficulty with penetration, and some experience several symptoms together.
           </p>
         </div>
 
@@ -98,10 +98,10 @@ export const RecognisingExperiences: React.FC = () => {
           ))}
         </div>
 
-        {/* Disclaimer Note */}
-        <div className="text-center pt-2 max-w-xl mx-auto">
-          <p className="text-xs sm:text-sm text-charcoal/70 leading-relaxed italic font-body">
-            These experiences can have different causes. They do not, by themselves, confirm vaginismus.
+        {/* Closing Reassurance Note */}
+        <div className="text-center pt-2 max-w-2xl mx-auto">
+          <p className="text-xs sm:text-sm text-charcoal/75 leading-relaxed font-body">
+            These experiences do not, by themselves, confirm vaginismus. You do not need to diagnose yourself before seeking advice.
           </p>
         </div>
 

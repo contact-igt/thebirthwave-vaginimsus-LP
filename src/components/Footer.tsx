@@ -200,6 +200,14 @@ export const Footer: React.FC = () => {
                 </li>
                 <li>
                   <a
+                    href="#privacy"
+                    className="hover:text-white transition-colors inline-block"
+                  >
+                    Privacy &amp; Confidentiality
+                  </a>
+                </li>
+                <li>
+                  <a
                     href="https://www.thebirthwave.in/blog"
                     target="_blank"
                     rel="noopener noreferrer"

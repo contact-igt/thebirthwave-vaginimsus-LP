@@ -1,14 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { FixedBackgroundLines } from './components/FixedBackgroundLines';
 import { Navbar } from './components/Navbar';
+import { CareProgramme, IndividualizedCare } from './components/CareProgramme';
+import { WhatsAppEnquiry } from './components/WhatsAppEnquiry';
 import { Hero } from './components/Hero';
 import { Understanding } from './components/Understanding';
+import { BirthwaveGallery } from './components/BirthwaveGallery';
 import { RecognisingExperiences } from './components/RecognisingExperiences';
 import { WhenToConsiderConversation } from './components/WhenToConsiderConversation';
 import { InteractiveAssessment } from './components/InteractiveAssessment';
 import { FirstConsultation } from './components/FirstConsultation';
 import { CareTeam } from './components/CareTeam';
+import { EducationalReels } from './components/EducationalReels';
+import { EducationalVideos } from './components/EducationalVideos';
 import { Testimonials } from './components/Testimonials';
+import { PrivacyMatters } from './components/PrivacyMatters';
 import { FAQSection } from './components/FAQSection';
 import { ContactSection } from './components/ContactSection';
 import { Footer } from './components/Footer';
@@ -78,12 +84,18 @@ export const App: React.FC = () => {
           <>
             <Hero />
             <Understanding />
+            <BirthwaveGallery />
             <RecognisingExperiences />
+            <EducationalReels />
             <WhenToConsiderConversation />
             <InteractiveAssessment />
             <FirstConsultation />
+            <CareProgramme />
+            <IndividualizedCare />
             <CareTeam />
+            <EducationalVideos />
             <Testimonials />
+            <PrivacyMatters />
             <FAQSection />
             <ContactSection />
           </>
@@ -91,7 +103,7 @@ export const App: React.FC = () => {
       </main>
 
       <Footer />
-      {!isThankYou && <FloatingContactBar />}
+      {!isThankYou && <><FloatingContactBar /><WhatsAppEnquiry /></>}
     </div>
   );
 };
