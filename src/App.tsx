@@ -5,7 +5,6 @@ import { CareProgramme, IndividualizedCare } from './components/CareProgramme';
 import { WhatsAppEnquiry } from './components/WhatsAppEnquiry';
 import { Hero } from './components/Hero';
 import { Understanding } from './components/Understanding';
-import { BirthwaveGallery } from './components/BirthwaveGallery';
 import { RecognisingExperiences } from './components/RecognisingExperiences';
 import { WhenToConsiderConversation } from './components/WhenToConsiderConversation';
 import { InteractiveAssessment } from './components/InteractiveAssessment';
@@ -84,7 +83,6 @@ export const App: React.FC = () => {
           <>
             <Hero />
             <Understanding />
-            <BirthwaveGallery />
             <RecognisingExperiences />
             <EducationalReels />
             <WhenToConsiderConversation />

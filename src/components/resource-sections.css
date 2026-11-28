@@ -27,7 +27,7 @@
 .stories-google-badge { min-width: 0; }
 .stories-display { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; }
 .stories-display > article { @apply bg-cream; min-width: 0; border-radius: 20px; border: 1px solid #e7cfc2; }
-.story-navigation { grid-column: 1 / -1; display: flex; justify-content: flex-end; gap: 8px; }
+.story-navigation { display: flex; align-items: center; justify-content: flex-end; gap: 8px; }
 .story-reviewer { padding: 0 24px 24px; font-size: 14px; font-weight: 600; color: #5a372c; }
 .story-quote-heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 16px; }
 .story-text { padding: 24px; animation: storyReveal 350ms ease both; }
@@ -37,17 +37,17 @@
 @media (min-width: 1024px) {
   .stories-layout {
     width: min(calc(100% - 80px), 1200px);
+    grid-template-columns: minmax(0, 1fr) auto;
   }
   .stories-intro {
     flex-direction: row;
     flex-wrap: wrap;
     align-items: center;
+    justify-content: flex-start;
     column-gap: 18px;
   }
   .stories-trust-row { margin-inline: 0; }
-  .stories-links { order: 1; }
-  .stories-display { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .story-navigation { order: 1; }
+  .stories-display { grid-column: 1 / -1; grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .story-quote-heading { flex-wrap: wrap; }
 }
 @media (max-width: 767px) {

@@ -141,13 +141,6 @@ export const Testimonials: React.FC = () => {
             </span>
           </div>
             </div>
-            <div className="stories-links flex flex-col sm:flex-row flex-wrap items-center justify-center gap-3">
-                <a href="https://www.google.com/maps/search/?api=1&query=The+Birthwave+Mahalingapuram+Main+Road+Chennai"
-                  target="_blank" rel="noopener noreferrer"
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full bg-sand-dark hover:bg-sand-deep text-white border border-transparent font-heading font-medium text-sm transition-all duration-200">
-                  Read All Google Reviews<ExternalLink className="w-3.5 h-3.5 text-white" aria-hidden="true" />
-                </a>
-            </div>
             <div className="stories-trust-row">
               <div className="flex items-center gap-1.5 text-sm text-muted">
                 <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" aria-hidden="true" />
@@ -164,11 +157,11 @@ export const Testimonials: React.FC = () => {
             </div>
             </div>
           </div>
+          <div className="story-navigation">
+            <button type="button" className="resource-arrow" aria-label="Previous review" onClick={() => move(-1)}><ChevronLeft aria-hidden="true" /></button>
+            <button type="button" className="resource-arrow" aria-label="Next review" onClick={() => move(1)}><ChevronRight aria-hidden="true" /></button>
+          </div>
           <div className="stories-display" aria-live="polite">
-            <div className="story-navigation">
-              <button type="button" className="resource-arrow" aria-label="Previous review" onClick={() => move(-1)}><ChevronLeft aria-hidden="true" /></button>
-              <button type="button" className="resource-arrow" aria-label="Next review" onClick={() => move(1)}><ChevronRight aria-hidden="true" /></button>
-            </div>
             {[0, 1, 2].map(offset => {
               const review = testimonials[(activeIndex + offset) % testimonials.length];
               return (
@@ -190,6 +183,13 @@ export const Testimonials: React.FC = () => {
                 </article>
               );
             })}
+          </div>
+          <div className="col-span-full flex justify-center">
+            <a href="https://www.google.com/maps/search/?api=1&query=The+Birthwave+Mahalingapuram+Main+Road+Chennai"
+              target="_blank" rel="noopener noreferrer"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full bg-sand-dark hover:bg-sand-deep text-white border border-transparent font-heading font-medium text-sm transition-all duration-200">
+              Read All Google Reviews<ExternalLink className="w-3.5 h-3.5 text-white" aria-hidden="true" />
+            </a>
           </div>
         </div>
         </div>
