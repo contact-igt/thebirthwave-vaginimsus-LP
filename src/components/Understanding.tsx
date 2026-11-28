@@ -9,28 +9,28 @@ interface ExplanatoryItem {
 
 export const Understanding: React.FC = () => {
   const [hoveredItem, setHoveredItem] = useState<number | null>(null);
-  const [selectedItem, setSelectedItem] = useState<number | null>(0);
+  const [selectedItem, setSelectedItem] = useState<number | null>(null);
 
   const activeItem = hoveredItem !== null ? hoveredItem : selectedItem;
 
   const items: ExplanatoryItem[] = [
     {
-      id: 'tighten-automatically',
-      title: 'The Body May Tighten Automatically',
+      id: 'anticipates-discomfort',
+      title: 'The Body Anticipates Discomfort',
       description:
-        'Pelvic-floor muscles may tighten in anticipation of or during attempted penetration. This response can occur even when penetration is wanted.',
+        'Past pain, examination fears or worry about penetration can trigger a protective response.',
     },
     {
-      id: 'different-causes',
-      title: 'Pain Can Have Different Causes',
+      id: 'muscles-tighten',
+      title: 'Muscles Tighten Automatically',
       description:
-        'Dryness, infections, skin conditions and other pelvic-health concerns can also cause discomfort. Assessment helps identify what support may be appropriate.',
+        'The pelvic-floor muscles contract without conscious control, making penetration painful or difficult.',
     },
     {
-      id: 'care-begins-with-understanding',
-      title: 'Care Can Begin With Understanding',
+      id: 'gentle-support',
+      title: 'Gentle Support Can Help',
       description:
-        'An initial conversation about your experiences and symptoms can help guide the next steps. An intimate examination is not automatically necessary.',
+        'Care may include physiotherapy, breathing techniques and emotional support to improve comfort.',
     },
   ];
 
@@ -53,30 +53,22 @@ export const Understanding: React.FC = () => {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Main 2-Column Grid: Left (Heading + Narrative + Uterus Illustration), Right (Accordions + Reassurance) */}
+        {/* Main 2-Column Grid: Left (Heading + Uterus Illustration), Right (Interactive List + Reassurance) */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 xl:gap-16 items-center">
           
           {/* LEFT COLUMN: Section Label, Heading, Description, and Uterus Illustration */}
           <div className="lg:col-span-6 space-y-6 sm:space-y-7">
             {/* Header Content */}
-            <div className="space-y-3.5">
+            <div className="space-y-3">
               <span className="font-heading text-xs font-semibold uppercase tracking-[0.14em] text-sand-dark block">
                 UNDERSTANDING VAGINISMUS
               </span>
               <h2 className="text-2xl sm:text-3xl lg:text-[34px] xl:text-[36px] font-heading font-semibold sm:font-bold text-charcoal tracking-tight leading-[1.2]">
-                Why Can Penetration Feel Difficult or Painful?
+                Why Does the Body Tighten Automatically?
               </h2>
-              <div className="space-y-3 text-sm sm:text-base text-charcoal/80 leading-relaxed font-normal font-body max-w-xl">
-                <p>
-                  Vaginismus involves involuntary tightening of the muscles around the vaginal opening, which can make penetration difficult, uncomfortable or painful.
-                </p>
-                <p>
-                  This can happen during attempted intimacy, tampon insertion or a vaginal examination. The muscle response is not something a person necessarily controls consciously.
-                </p>
-                <p>
-                  Pain during penetration can also have other causes. A healthcare professional can help understand what may be contributing to your symptoms.
-                </p>
-              </div>
+              <p className="text-sm sm:text-base text-charcoal/80 leading-relaxed font-normal font-body max-w-xl">
+                Vaginismus can cause pelvic-floor muscles to tighten involuntarily when penetration is expected or attempted. This is an automatic response—not your fault.
+              </p>
             </div>
 
             {/* Illustration Area: Uterus Symbol Centered Over Spreading-Colour Glow */}
@@ -95,13 +87,13 @@ export const Understanding: React.FC = () => {
               <img
                 src="/brand/uterus-heart-symbol.svg"
                 alt="The Birthwave anatomical uterus and heart symbol"
-                className="relative z-10 w-72 h-72 sm:w-80 sm:h-80 md:w-96 md:h-96 lg:w-96 lg:h-96 xl:w-[420px] xl:h-[420px] max-w-full object-contain drop-shadow-xs transition-transform duration-500 hover:scale-[1.02]"
+                className="relative z-10 w-56 h-56 sm:w-64 sm:h-64 md:w-72 md:h-72 lg:w-72 lg:h-72 xl:w-80 xl:h-80 object-contain drop-shadow-xs transition-transform duration-500 hover:scale-[1.02]"
                 loading="lazy"
               />
             </div>
           </div>
 
-          {/* RIGHT COLUMN: Interactive Information List + Reassurance */}
+          {/* RIGHT COLUMN: Interactive Information List + Two Reassurance Items */}
           <div className="lg:col-span-6 lg:pl-4 xl:pl-8">
             <div
               className="divide-y divide-sand/20"
@@ -166,9 +158,8 @@ export const Understanding: React.FC = () => {
               })}
             </div>
 
-            <p className="mt-4 font-body text-xs sm:text-sm text-charcoal/85">Your concerns deserve to be understood at your own pace.</p>
             {/* TWO REASSURANCE ITEMS: Positioned directly below the third expandable item */}
-            <div className="mt-5 p-4 sm:p-5 rounded-2xl border border-sand/30 bg-sand-pale/70 shadow-soft">
+            <div className="mt-5 pt-5 border-t border-sand/20 px-3 sm:px-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
                 {/* Reassurance Item 1 */}
                 <div className="flex items-start gap-2.5 sm:gap-3">

@@ -25,14 +25,10 @@ const getBackendUrl = (): string => {
 
 export type FormValues = {
   name: string;
-  phone?: string;
-  email?: string;
-  contactInfo?: string;
-  consultationFormat?: string;
-  preferredDateTime?: string;
-  preferredContactMethod?: string;
-  helpOption?: string;
-  message?: string;
+  phone: string;
+  email: string;
+  helpOption: string;
+  message: string;
   consent: boolean;
 };
 
@@ -82,42 +78,16 @@ export async function submitLead(values: FormValues): Promise<{ success: boolean
   const tracking = attribution();
   const backendUrl = getBackendUrl();
 
-  // Deduce phone and email from contactInfo if provided
-  let phone = values.phone || '';
-  let email = values.email || '';
-  if (values.contactInfo) {
-    if (values.contactInfo.includes('@')) {
-      email = email || values.contactInfo;
-    } else {
-      phone = phone || values.contactInfo;
-    }
-  }
-
-  const format = values.consultationFormat || values.helpOption || 'In person at The BirthWave, Chennai';
-  const contactMethod = values.preferredContactMethod || 'WhatsApp message';
-  const dateTime = values.preferredDateTime ? ` | Preferred Date & Time: ${values.preferredDateTime}` : '';
-  const service = `${format}${dateTime} (Method: ${contactMethod})`;
-
-  const compiledMessage = [
-    values.message ? `Message: ${values.message}` : '',
-    values.consultationFormat ? `Format: ${values.consultationFormat}` : '',
-    values.preferredDateTime ? `Preferred Date & Time: ${values.preferredDateTime}` : '',
-    values.preferredContactMethod ? `Preferred Contact Method: ${values.preferredContactMethod}` : '',
-    values.contactInfo ? `Contact Info: ${values.contactInfo}` : '',
-  ]
-    .filter(Boolean)
-    .join('\n');
-
   const payload = {
     source_key: SOURCE_KEY,
     client_key: 'birthwave',
     lead_id: leadId,
     external_submission_id: leadId,
     name: values.name,
-    phone: phone || values.contactInfo || '',
-    email: email || (values.contactInfo?.includes('@') ? values.contactInfo : ''),
-    service: service,
-    message: compiledMessage || values.message || '',
+    phone: values.phone,
+    email: values.email,
+    service: values.helpOption,
+    message: values.message,
     consent: values.consent,
     attribution: tracking,
   };
@@ -151,47 +121,51 @@ export async function submitLead(values: FormValues): Promise<{ success: boolean
 
     const sheetPayload = {
       ...payload,
+      // Exact Google Sheet Column Headers (matching the Vaginismus sheet:
+      // Timestamp, Name, Phone, What do you need help with?, Email, Message, Source, UTM Source, UTM Medium, UTM Campaign, GCLID, FBCLID)
       'Timestamp': nowIst,
       'Name': values.name,
-      'Phone': phone || values.contactInfo || '',
-      'What do you need help with?': service,
-      'Email': email || '',
-      'Message': compiledMessage || values.message || '',
+      'Phone': values.phone,
+      'What do you need help with?': values.helpOption,
+      'Email': values.email,
+      'Message': values.message,
       'Source': tracking.source || 'Vaginismus Landing Page',
       'UTM Source': tracking.utm_source,
       'UTM Medium': tracking.utm_medium,
       'UTM Campaign': tracking.utm_campaign,
       'GCLID': tracking.gclid,
       'FBCLID': tracking.fbclid,
-      'Consultation Focus': service,
+      'Consultation Focus': values.helpOption,
       'Consent': values.consent ? 'Yes' : 'No',
-      'Service': service,
-      'Consultation Format': values.consultationFormat || '',
-      'Preferred Date & Time': values.preferredDateTime || '',
-      'Preferred Contact Method': values.preferredContactMethod || '',
+      'Service': values.helpOption,
+
+      // Flexible fallbacks for various script parsers
       timestamp: nowIst,
       created_at: isoString,
       submitted_at: nowIst,
+      help_option: values.helpOption,
+      helpOption: values.helpOption,
+      consultation_focus: values.helpOption,
+      consultationFocus: values.helpOption,
+      service: values.helpOption,
+      serviceCode: 'vaginismus',
+      source_key: SOURCE_KEY,
+      ...tracking,
     };
 
-    try {
-      await fetch(SHEET_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(sheetPayload),
-      });
+    const postOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(sheetPayload),
+    };
 
-      return { success: true, fallbackUsed: true };
-    } catch (sheetError) {
-      console.error('[Birthwave Intake] Both Backend API and Sheet webhook fallback failed.', sheetError);
-      throw new Error(
-        'Unable to send enquiry. Please check your internet connection or reach out to us directly on WhatsApp.'
-      );
+    const sheetResponse = await fetch(SHEET_URL, postOptions);
+    if (!sheetResponse.ok) {
+      console.warn('[Birthwave Intake] Sheet fallback returned status:', sheetResponse.status);
     }
+
+    return { success: true, fallbackUsed: true };
   }
 
-  return { success: true };
+  return { success: true, fallbackUsed: false };
 }

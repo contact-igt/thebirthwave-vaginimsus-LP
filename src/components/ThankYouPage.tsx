@@ -9,21 +9,17 @@ interface ThankYouPageProps {
 
 export const ThankYouPage: React.FC<ThankYouPageProps> = ({
   onBackToHome,
-  service = 'In person at The BirthWave, Chennai',
+  service = 'Vaginismus & Intimate Health',
   name,
 }) => {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    document.title = 'Appointment Request Received | The BirthWave';
+    document.title = 'Thank You | The Birthwave — Vaginismus & Intimate Health';
   }, []);
 
-  const searchParams = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null;
-  const preferredMethod = searchParams?.get('method') || '';
-  const contactDetail = searchParams?.get('contact') || '';
-
   const whatsappMessage = encodeURIComponent(
-    `Hello The Birthwave team, I just submitted an appointment request${
-      name ? ` for ${name}` : ''
+    `Hello The Birthwave team, I just submitted an inquiry on your website${
+      service ? ` regarding ${service}` : ''
     }. I would like to confirm my consultation details.`
   );
 
@@ -44,7 +40,7 @@ export const ThankYouPage: React.FC<ThankYouPageProps> = ({
         </div>
 
         {/* Main Card */}
-        <div className="bg-white/95 backdrop-blur-md border border-sand/30 rounded-3xl p-6 sm:p-10 lg:p-12 shadow-soft-lg space-y-6 text-left">
+        <div className="bg-white/90 backdrop-blur-md border border-sand/30 rounded-3xl p-6 sm:p-10 lg:p-12 shadow-soft-lg space-y-6 text-left">
           
           {/* Header with Icon */}
           <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-5 pb-2">
@@ -53,44 +49,27 @@ export const ThankYouPage: React.FC<ThankYouPageProps> = ({
             </div>
             <div className="text-center sm:text-left space-y-1.5">
               <span className="text-[11px] sm:text-xs font-semibold uppercase tracking-[0.14em] text-sand-dark block">
-                APPOINTMENT CONFIRMATION
+                Confidential Inquiry Received
               </span>
               <h1 className="font-heading font-bold text-2xl sm:text-3xl lg:text-[34px] leading-tight text-charcoal">
-                Your Appointment Request Has Been Received
+                Thank You{name ? `, ${name}` : ''}. We&rsquo;re Here For You.
               </h1>
             </div>
           </div>
 
-          {/* Narrative Content */}
-          <div className="space-y-3 font-body text-sm sm:text-base text-charcoal/80 leading-relaxed">
-            <p>
-              Thank you{name ? ` ${name}` : ''}. Your request has been received. The BirthWave team will contact you through your selected method to confirm the appointment.
-            </p>
-            <p className="text-xs sm:text-sm text-charcoal/70">
-              Please check the contact details you provided{contactDetail ? ` (${contactDetail})` : ''}. If you need to change how or when we contact you, please let the team know.
-            </p>
-          </div>
+          <p className="font-body text-sm sm:text-base text-charcoal/80 leading-relaxed">
+            Your request has been delivered safely and held in strict medical confidentiality. Our clinical care coordinator will reach out to you discreetly to coordinate your private appointment.
+          </p>
 
-          {/* Consultation Summary Badge */}
-          {(service || preferredMethod) && (
-            <div className="bg-[#FAF1EC]/80 border border-sand/20 rounded-2xl p-4 sm:p-5 space-y-2">
+          {/* Consultation Focus Badge */}
+          {service && (
+            <div className="bg-cream/80 border border-sand/20 rounded-2xl p-4 sm:p-5 space-y-1.5">
               <span className="text-[10px] font-semibold uppercase tracking-wider text-muted block">
-                Consultation Summary
+                Selected Consultation Focus
               </span>
-              <div className="space-y-1">
-                {service && (
-                  <p className="font-heading font-semibold text-xs sm:text-sm text-charcoal">
-                    Format:{' '}
-                    <span className="font-normal text-charcoal/80">{service}</span>
-                  </p>
-                )}
-                {preferredMethod && (
-                  <p className="font-heading font-semibold text-xs sm:text-sm text-charcoal">
-                    Preferred Contact Method:{' '}
-                    <span className="font-normal text-charcoal/80">{preferredMethod}</span>
-                  </p>
-                )}
-              </div>
+              <p className="font-heading font-bold text-sm sm:text-base text-charcoal">
+                {service}
+              </p>
             </div>
           )}
 
@@ -98,7 +77,7 @@ export const ThankYouPage: React.FC<ThankYouPageProps> = ({
           <div className="flex items-start gap-3 p-3.5 rounded-xl bg-sand-pale/50 border border-sand/20 text-xs text-charcoal/75">
             <ShieldCheck className="w-4 h-4 text-sand-dark shrink-0 mt-0.5" />
             <p className="leading-relaxed">
-              <strong>Strict Confidentiality:</strong> Your health and contact details are handled with complete medical privacy. No sensitive medical information is disclosed externally.
+              <strong>Your privacy is paramount.</strong> We will never disclose your details or send unsolicited correspondence. Calls and messages are handled only by licensed healthcare coordinators.
             </p>
           </div>
 
