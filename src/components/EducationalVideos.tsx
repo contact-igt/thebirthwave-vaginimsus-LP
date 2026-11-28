@@ -24,6 +24,18 @@ export const educationalVideos = [
     url: 'https://www.youtube.com/watch?v=W9taElo392U',
   },
   {
+    id: 'EIEQ8AnD-Yk', title: 'Pain During Sex After Childbirth', presenter: 'Dr. Santoshi Nandigam',
+    originalTitle: 'Pain During Sex After Childbirth? Why It Happens & What You Can Do | Dr. Santoshi Nandigam',
+    description: 'A discussion about why sex can feel painful after childbirth and what you can do about it.',
+    url: 'https://www.youtube.com/watch?v=EIEQ8AnD-Yk',
+  },
+  {
+    id: 'IFLVei9ww_c', title: 'Vaginismus Explained: Why Is Penetration Painful?', presenter: 'Dr. Santoshi Nandigam',
+    originalTitle: 'Vaginismus Explained: Why Is Penetration Painful? Causes, Treatment & Pregnancy | Dr. Santoshi',
+    description: 'An overview of vaginismus, painful penetration, treatment and pregnancy.',
+    url: 'https://www.youtube.com/watch?v=IFLVei9ww_c',
+  },
+  {
     id: 'Jl7r4gMAxiU', title: 'Understanding Vaginismus and the Pelvic Floor', presenter: 'Dr. Adithi N (PT)',
     originalTitle: 'Understanding Vaginismus | Dr. Adithi N (PT)',
     description: 'An introduction to vaginismus from a physiotherapy perspective.',
@@ -55,17 +67,18 @@ const portraitThumbnailIds = new Set(['euwj9YnQzUQ']);
 const VideoThumbnail: React.FC<{ id: string; title: string }> = ({ id, title }) => {
   const [fallback, setFallback] = useState(0);
   const localCover = localVideoCovers[id];
-  if (localCover) return fallback === 0
-    ? <img className="video-local-cover" src={localCover} width="1672" height="941" loading="lazy" decoding="async" alt={`${title} video cover`} onError={()=>setFallback(1)}/>
-    : <span className="video-thumbnail-fallback">{title}</span>;
+  if (localCover && fallback === 0) {
+    return <img className="video-local-cover" src={localCover} width="1672" height="941" loading="lazy" decoding="async" alt="" onError={() => setFallback(1)} />;
+  }
   const sources = ['maxresdefault', 'hqdefault'];
+  const sourceIndex = fallback - (localCover ? 1 : 0);
   const isPortrait = portraitThumbnailIds.has(id);
-  const thumbnailUrl = `https://i.ytimg.com/vi/${id}/${sources[fallback]}.jpg`;
-  return fallback < sources.length ? <>
+  const thumbnailUrl = `https://i.ytimg.com/vi/${id}/${sources[sourceIndex]}.jpg`;
+  return sourceIndex < sources.length ? <>
     {isPortrait && <span className="video-thumbnail-backdrop" aria-hidden="true" style={{ backgroundImage: `url(${thumbnailUrl})` }} />}
     <img className={isPortrait ? 'video-thumbnail-portrait' : undefined}
     src={thumbnailUrl}
-    width="1280" height="720" loading="lazy" decoding="async" alt={`Original YouTube thumbnail for ${title}`}
+    width="1280" height="720" loading="lazy" decoding="async" alt=""
     onLoad={event => { if (event.currentTarget.naturalWidth <= 120) setFallback(value => value + 1); }}
     onError={() => setFallback(value => value + 1)} />
     </> : <span className="video-thumbnail-fallback">{title}</span>;

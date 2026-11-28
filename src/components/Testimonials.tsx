@@ -1,6 +1,5 @@
-import React, { useLayoutEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { Star, ExternalLink, HeartHandshake, CheckCircle2, ChevronLeft, ChevronRight, Quote } from 'lucide-react';
-import { circularOffset } from './carouselUtils';
 import './resource-sections.css';
 
 interface Testimonial {
@@ -17,10 +16,7 @@ interface Testimonial {
 }
 
 export const Testimonials: React.FC = () => {
-  const [activeCategory, setActiveCategory] = useState('all');
   const [activeIndex, setActiveIndex] = useState(0);
-  const quoteContentRef = useRef<HTMLQuoteElement>(null);
-  const [quoteHeight, setQuoteHeight] = useState<number>();
   const testimonials: Testimonial[] = [
     {
       id: '1',
@@ -102,30 +98,7 @@ export const Testimonials: React.FC = () => {
     },
   ];
 
-  const categories = [
-    { key: 'all', label: 'All Stories' },
-    { key: 'vaginismus', label: 'Vaginismus Recovery' },
-    { key: 'pelvic-floor', label: 'Pelvic Floor Therapy' },
-    { key: 'couple', label: 'Couple & Partner Support' },
-    { key: 'empathy', label: 'Compassionate Care' },
-  ];
-
-  const filtered = activeCategory === 'all' ? testimonials : testimonials.filter(item => item.category === activeCategory);
-  const selected = filtered[activeIndex];
-  const selectCategory = (key: string) => { setActiveCategory(key); setActiveIndex(0); };
-  const move = (step: number) => setActiveIndex(index => (index + step + filtered.length) % filtered.length);
-
-  // Follow the real content height, including responsive wrapping and font loading.
-  // Animate the outer height so switching reviews does not snap the selector row.
-  useLayoutEffect(() => {
-    const content = quoteContentRef.current;
-    if (!content) { setQuoteHeight(undefined); return; }
-    const measure = () => setQuoteHeight(Math.ceil(content.getBoundingClientRect().height) + 2);
-    measure();
-    const observer = new ResizeObserver(measure);
-    observer.observe(content);
-    return () => observer.disconnect();
-  }, [selected?.id]);
+  const move = (step: number) => setActiveIndex(index => (index + step + testimonials.length) % testimonials.length);
 
   return (
     <section id="testimonials" className="patient-stories py-14 md:py-20 scroll-mt-20 md:scroll-mt-24" aria-label="Patient reviews and testimonials">
@@ -141,7 +114,7 @@ export const Testimonials: React.FC = () => {
         </header>
         <div className="stories-body">
         <div className="stories-layout">
-          <div className="stories-intro space-y-4">
+          <div className="stories-intro gap-4">
             <div className="stories-summary">
 <div className="stories-google-badge inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-sand-pale/80 border border-sand/30">
             {/* Google "G" Icon */}
@@ -168,25 +141,6 @@ export const Testimonials: React.FC = () => {
             </span>
           </div>
             </div>
-            <h3 className="font-heading font-semibold text-lg sm:text-xl text-charcoal text-center">Explore Stories</h3>
-<div title="Patient story categories, not treatment packages" className="stories-filters flex flex-wrap justify-center gap-2 pt-2" aria-label="Filter patient stories">
-              {categories.map(category => (
-                <button key={category.key} type="button" aria-pressed={activeCategory === category.key}
-                  onClick={() => selectCategory(category.key)}
-                  className={`story-filter ${activeCategory === category.key ? 'is-selected' : ''}`}>
-                  {category.label}
-                </button>
-              ))}
-            </div>
-            <div className="stories-links flex flex-col sm:flex-row flex-wrap items-center justify-center gap-3">
-              {['View on Google Maps', 'Read All Google Reviews'].map(label => (
-                <a key={label} href="https://www.google.com/maps/search/?api=1&query=The+Birthwave+Mahalingapuram+Main+Road+Chennai"
-                  target="_blank" rel="noopener noreferrer"
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full bg-sand-dark hover:bg-sand-deep text-white border border-transparent font-heading font-medium text-sm transition-all duration-200">
-                  {label}<ExternalLink className="w-3.5 h-3.5 text-white" aria-hidden="true" />
-                </a>
-              ))}
-            </div>
             <div className="stories-trust-row">
               <div className="flex items-center gap-1.5 text-sm text-muted">
                 <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" aria-hidden="true" />
@@ -203,50 +157,40 @@ export const Testimonials: React.FC = () => {
             </div>
             </div>
           </div>
-          <div className="stories-display">
-            <div className="story-quote" style={{ height: quoteHeight }} aria-live="polite" aria-atomic="true">
-              {selected ? <blockquote key={selected.id} ref={quoteContentRef} className="story-text">
-                <div className="story-quote-heading">
-                  <Quote className="text-sand" size={34} aria-hidden="true" />
-                  <div className="story-rating-meta">
-                    <div className="flex items-center gap-1 text-amber-400" role="img" aria-label={`${selected.rating} out of 5 stars`}>
-                      {Array.from({ length: selected.rating }, (_, index) => <Star key={index} className="w-4 h-4 fill-amber-400 text-amber-400" aria-hidden="true" />)}
-                    </div>
-                    <span className="story-rating-separator" aria-hidden="true">·</span>
-                    <span className="story-review-meta">{selected.timeAgo}</span>
-                  </div>
-                </div>
-                <h3 className="font-heading font-semibold text-xl sm:text-2xl leading-relaxed mb-4">{selected.headline}</h3>
-                <p className="text-base text-charcoal/80 leading-relaxed">{selected.story}</p>
-              </blockquote> : <p>No stories are available in this category.</p>}
-            </div>
+          <div className="story-navigation">
+            <button type="button" className="resource-arrow" aria-label="Previous review" onClick={() => move(-1)}><ChevronLeft aria-hidden="true" /></button>
+            <button type="button" className="resource-arrow" aria-label="Next review" onClick={() => move(1)}><ChevronRight aria-hidden="true" /></button>
           </div>
-        </div>
-        <div className="stories-selector-area">
-            <div className="story-selector" onKeyDown={event => {
-              if (filtered.length < 2) return;
-              if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
-                event.preventDefault(); move(event.key === 'ArrowRight' ? 1 : -1);
-              }
-            }}>
-              {filtered.length > 1 && <button type="button" className="resource-arrow" aria-label="Previous review" onClick={() => move(-1)}><ChevronLeft aria-hidden="true" /></button>}
-              <div className={`story-profiles ${filtered.length === 2 ? 'has-two' : ''}`}>
-                {filtered.map((item, index) => {
-                  const offset = circularOffset(index, activeIndex, filtered.length);
-                  const visible = Math.abs(offset) <= 1;
-                  const active = index === activeIndex;
-                  return <button key={item.id} type="button" className={`story-profile ${active ? 'is-active' : ''}`}
-                    data-visible={visible} style={{ '--position': offset } as React.CSSProperties}
-                    aria-hidden={!visible} tabIndex={visible ? 0 : -1} aria-pressed={active}
-                    aria-label={`Read ${item.name}'s story`} onClick={() => setActiveIndex(index)}>
-                    <span className={`story-avatar bg-gradient-to-br ${item.accentColor}`} aria-hidden="true">{(item.name.match(/\p{L}+/gu) || []).map(part => part[0]).slice(0, 2).join('').toUpperCase()}</span>
-                    <span className="story-name">{item.name}</span>
-                    <span className="story-category">{item.categoryLabel}</span>
-                  </button>;
-                })}
-              </div>
-              {filtered.length > 1 && <button type="button" className="resource-arrow" aria-label="Next review" onClick={() => move(1)}><ChevronRight aria-hidden="true" /></button>}
-            </div>
+          <div className="stories-display" aria-live="polite">
+            {[0, 1, 2].map(offset => {
+              const review = testimonials[(activeIndex + offset) % testimonials.length];
+              return (
+                <article key={review.id} className={offset ? 'hidden lg:block' : ''}>
+                  <blockquote className="story-text">
+                    <div className="story-quote-heading">
+                      <Quote className="text-sand" size={28} aria-hidden="true" />
+                      <div className="story-rating-meta">
+                        <div className="flex items-center gap-0.5 text-amber-400" role="img" aria-label={`${review.rating} out of 5 stars`}>
+                          {Array.from({ length: review.rating }, (_, index) => <Star key={index} className="h-3.5 w-3.5 fill-amber-400" aria-hidden="true" />)}
+                        </div>
+                        <span className="story-review-meta">{review.timeAgo}</span>
+                      </div>
+                    </div>
+                    <h3 className="mb-3 font-heading text-lg font-semibold leading-snug">{review.headline}</h3>
+                    <p className="text-sm leading-relaxed text-charcoal/80">{review.story}</p>
+                  </blockquote>
+                  <p className="story-reviewer">{review.name}</p>
+                </article>
+              );
+            })}
+          </div>
+          <div className="col-span-full flex justify-center">
+            <a href="https://www.google.com/maps/search/?api=1&query=The+Birthwave+Mahalingapuram+Main+Road+Chennai"
+              target="_blank" rel="noopener noreferrer"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full bg-sand-dark hover:bg-sand-deep text-white border border-transparent font-heading font-medium text-sm transition-all duration-200">
+              Read All Google Reviews<ExternalLink className="w-3.5 h-3.5 text-white" aria-hidden="true" />
+            </a>
+          </div>
         </div>
         </div>
         {/* Reassurance Banner & Direct CTA */}
